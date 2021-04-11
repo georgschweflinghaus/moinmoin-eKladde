@@ -43,10 +43,21 @@ html, body {
    navbar elements
 ===========================================================*/
 
+input#add-page-button {
+
+}
+
+input#add-page-input {
+    background-color: #d5d5d5;
+    border-color: gray;
+}
+
+
 /* search form customization: search icon inside input area */
 input.form-search {
     padding-right: 24px;
     padding-left: 8px;
+    background-color: #d5d5d5;
 }
 form.form-search {
     position: relative;
@@ -667,7 +678,7 @@ table > tfoot > tr.danger > th {
     font-family: monospace;
 }
 /* buttons */
-#pagebox input[type="submit"] {
+/* #pagebox input[type="submit"] {
     /* Bootstrap .btn */
     display: inline-block;
     padding: 5px 10px;
@@ -686,34 +697,34 @@ table > tfoot > tr.danger > th {
     background-image: none;
     border: 1px solid transparent;
     border-radius: 3px;
-    /* Bootstrap .btn-default */
+    /* Bootstrap .btn-default
     color: #333;
     background-color: #fff;
     border-color: #ccc;
 }
 #pagebox input[type="submit"]:focus,
 #pagebox input[type="submit"]:active:focus {
-    /* Bootstrap .btn:focus */
+    /* Bootstrap .btn:focus
     outline: thin dotted;
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
 }
 #pagebox input[type="submit"]:hover,
 #pagebox input[type="submit"]:focus {
-    /* Bootstrap .btn:hover */
+    /* Bootstrap .btn:hover
     color: #333;
     text-decoration: none;
-    /* Bootstrap .btn-default:hover */
+    /* Bootstrap .btn-default:hover
     background-color: #ebebeb;
     border-color: #adadad;
 }
 #pagebox input[type="submit"]:active {
-    /* Bootstrap .btn:active */
+    /* Bootstrap .btn:active
     background-image: none;
     outline: 0;
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
             box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-}
+} */
 /* control margins */
 #pagebox input[type="text"],
 #pagebox input[type="password"],
@@ -748,7 +759,7 @@ pre {
     padding-top: 20px;
 }
 #content {
-    padding-top: 0px;    
+    padding-top: 0px;
 }
 #sidebar, #contentbox {
     padding-left: 15px;
@@ -776,6 +787,8 @@ pre {
     display: inline-block;
     vertical-align: top;
     position: relative;
+    background-color: #f5f5f5;
+    height: 100%;
 }
 #sidebar-mover {
     position: relative;
@@ -889,6 +902,14 @@ pre {
     border-bottom: 1px solid #eee;
     margin-bottom: 20px;
 }
+#location a {
+    font-size: large;}
+.container {
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+}
+
 .lastupdate {
     display: block;
     font-size: smaller;
