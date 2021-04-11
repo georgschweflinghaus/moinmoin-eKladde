@@ -7,7 +7,6 @@
     Config variables:
         Following variables and methods in wikiconfig.py will change something in the theme.
 
-        memodump_menuoverride
             Overrides menu elements.
 
         memodump_menu_def(request)
@@ -32,6 +31,7 @@ import StringIO, re
 from MoinMoin import wikiutil
 from MoinMoin.action import get_available_actions
 from MoinMoin.Page import Page
+from MoinMoin.macro.NewPage import NewPage
 
 class Theme(ThemeBase):
 
@@ -163,15 +163,12 @@ class Theme(ThemeBase):
 
           <!-- Navbar elements -->
           <ul class="nav navbar-nav navbar-right">
-
-            <!-- Comment toggle button -->
-%(commentbutton)s
-            <!-- Edit button -->
-%(edit)s
+            <!-- New Button -->
+%(new_page)s
             <!-- Search form -->
 %(search)s
             <!-- Menu -->
-%(menu)s
+%(menu_overall)s
             <!-- Login user -->
 %(usermenu)s
 
@@ -205,11 +202,10 @@ class Theme(ThemeBase):
 <!-- Page contents -->
 """ % {'sitename': self.logo(),
        'location': self.location(d),
-       'menu': self.menu(d),
+       'menu_overall': self.menu_overall(d),
+       'new_page': self.new_page(d),
        'usermenu': self.username(d),
        'search': self.searchform(d),
-       'edit': self.editbutton(d),
-       'commentbutton': self.commentbutton(),
        'sidebar': self.sidebar(d),
        'trail': self.trail(d),
        #'quicklinks': self.quicklinks(d),
@@ -221,6 +217,24 @@ class Theme(ThemeBase):
 
         return html
 
+    def new_page(self, d, **keywords):
+        html='''
+        <li>
+            <div class="navbar-form">
+                <form class="macro" method="POST" action="/%(page)s">
+                    <input type="hidden" name="action" value="newpage">
+                    <input type="hidden" name="parent" value="%(page)s">
+                    <input type="hidden" name="template" value="">
+                    <input type="hidden" name="nametemplate" value="%(placeholder)s">
+                    <input type="text" name="pagename" id="add-page-input" class="form-control" placeholder="Page" size="30">
+                    <label for="newpage" id="add-page-button" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i></label>
+                    <input id="newpage" name="newpage" type="submit" value="Page" class="hidden">
+                </form>
+            </div>
+        </li>
+''' % {'page': d['page'].split_title(), 'placeholder': '%s'}
+        return html
+#<input type="submit" id="add-page-button" class="form-control" value="Add page">
     def editorheader(self, d, **kw):
         """
         header() for edit mode. Just set edit mode flag and call self.header().
@@ -276,6 +290,7 @@ class Theme(ThemeBase):
   <script src="%(prefix)s/%(theme)s/js/bootstrap.min.js"></script>
   <!-- toggle.js by dossist -->
   <script src="%(prefix)s/%(theme)s/js/toggle.js"></script>
+  <script src="%(prefix)s/%(theme)s/js/memodump.js"></script>
   <!-- Custom script -->
 %(script)s
   <!-- End of JavaScript -->
@@ -295,7 +310,7 @@ class Theme(ThemeBase):
         """
         Append in-html script at the bottom of the page body.
         """
-        
+
         return ur"""
   <script>
     +function ($) {
@@ -306,7 +321,7 @@ class Theme(ThemeBase):
       $('.navbar-collapse').on('hidden.bs.collapse', function () {
         $('.navbar-mobile-toggle').togglejs('hide');
       });
-      
+
       //Scroll position fix for hash anchors
       var mdAnchorFix = {
         escapeRe: /[ !"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g,
@@ -352,7 +367,7 @@ class Theme(ThemeBase):
     }(jQuery);
   </script>
 """
-    
+
     def logo(self):
         """ Assemble logo with link to front page
         Using <a> tag only instead of wrapping with div
@@ -374,6 +389,41 @@ class Theme(ThemeBase):
           ''' % html
         return html
 
+    def title(self, d):
+        """ Assemble the title (now using breadcrumbs)
+
+        @param d: parameter dictionary
+        @rtype: string
+        @return: title html
+        """
+        _ = self.request.getText
+        content = []
+        if d['title_text'] == d['page'].split_title(): # just showing a page, no action
+            curpage = ''
+            segments = d['page_name'].split('/') # was: title_text
+            for s in segments[:-1]:
+                curpage += s
+                content.append("<li>%s</li>" % Page(self.request, curpage).link_to(self.request, s))
+                curpage += '/'
+            link = self.backlink(d['page'], d['page_name'], segments[-1])
+            content.append(('<li>%s</li>') % link)
+        else:
+            content.append('<li>%s</li>' % wikiutil.escape(d['title_text']))
+
+        html = '''
+<ul id="pagelocation">
+%(content)s
+%(edit)s
+%(menu_page)s
+%(commentbutton)s
+</ul>
+''' % { 'content': "".join(content),
+        'edit': self.editbutton(d),
+        'menu_page': self.menu_page(d),
+        'commentbutton': self.commentbutton(), }
+        return html
+
+
     def location(self, d):
         """ Assemble location area on top of the page content.
         Certain pages shouldn't have location area as it feels redundant.
@@ -394,7 +444,9 @@ class Theme(ThemeBase):
 %(pagename)s
           %(lastupdate)s
         </div>
-''' % {'interwiki': self.interwiki(d), 'pagename': self.title(d), 'lastupdate': self.lastupdate(d), }
+''' % { 'interwiki': self.interwiki(d),
+        'pagename': self.title(d),
+        'lastupdate': self.lastupdate(d)}
         return html
 
     def interwiki(self, d):
@@ -481,7 +533,7 @@ class Theme(ThemeBase):
         else:
             _ = self.request.getText
             querystr = {'action': 'edit'}
-            text = u'<span class="hidden-sm">%s</span>' % _('Edit')
+            text = u'<span class="hidden-sm">%s</span>' % _(' ')
             attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'menu-nav-edit'}
             button = page.link_to_raw(self.request, text=text, querystr=querystr, **attrs)
             if edit_mode:
@@ -601,43 +653,18 @@ class Theme(ThemeBase):
 
         return html
 
-    def menu(self, d):
-        """
-        Build dropdown menu html. Incompatible with original actionsMenu() method.
 
-        Menu can be customized by adding a config variable 'memodump_menuoverride'.
-        The variable will override the default menu set.
-        Additional menu definitions are given via config method 'memodump_menu_def(request)'.
-        See the code below or project wiki for details.
-
-        @param d: parameter dictionary
-        @rtype: string
-        @return: menu html
+    def menu_overall(self, d):
+        """ The menu for non page related overall functions
         """
         request = self.request
-        _ = request.getText
-        rev = request.rev
-        page = d['page']
-
-        page_recent_changes = wikiutil.getLocalizedPage(request, u'RecentChanges')
-        page_find_page = wikiutil.getLocalizedPage(request, u'FindPage')
-        page_help_contents = wikiutil.getLocalizedPage(request, u'HelpContents')
-        page_help_formatting = wikiutil.getLocalizedPage(request, u'HelpOnFormatting')
-        page_help_wikisyntax = wikiutil.getLocalizedPage(request, u'HelpOnMoinWikiSyntax')
-        page_title_index = wikiutil.getLocalizedPage(request, u'TitleIndex')
-        page_word_index = wikiutil.getLocalizedPage(request, u'WordIndex')
-        page_front_page = wikiutil.getFrontPage(request)
-        page_sidebar = Page(request, request.getPragma('sidebar', u'SideBar'))
-        quicklink = self.menuQuickLink(page)
-        subscribe = self.menuSubscribe(page)
-
         try:
-            menu = request.cfg.memodump_menuoverride
+            menu_entries = request.cfg.memodump_menuoverride
         except AttributeError:
             # default list of items in dropdown menu.
             # menu items are assembled in this order.
             # see wiki for detailed info on customization.
-            menu = [
+            menu_entries = [
                 '===== Navigation =====',
                 'RecentChanges',
                 'FindPage',
@@ -667,6 +694,74 @@ class Theme(ThemeBase):
                 'quicklink',
                 'subscribe',
             ]
+            return self._menu(d, menu_entries)
+
+
+    def menu_page(self, d):
+        """ The menu for  page related  functions
+        """
+        request = self.request
+        try:
+            menu_entries = request.cfg.memodump_menuoverride
+        except AttributeError:
+            # default list of items in dropdown menu.
+            # menu items are assembled in this order.
+            # see wiki for detailed info on customization.
+            menu_entries = [
+                '===== Display =====',
+                'AttachFile',
+                'info',
+                'raw',
+                'print',
+                '__separator__',
+                '===== Edit =====',
+                'RenamePage',
+                'DeletePage',
+                'revert',
+                'CopyPage',
+                'Load',
+                'Save',
+                'Despam',
+                'editSideBar',
+                '__separator__',
+                '===== User =====',
+                'quicklink',
+                'subscribe',
+            ]
+            return self._menu(d, menu_entries)
+
+
+
+    def _menu(self, d, menu_entries):
+        """
+        Build dropdown menu html. Incompatible with original actionsMenu() method.
+
+        Menu can be customized by adding a config variable 'memodump_menuoverride'.
+        The variable will override the default menu set.
+        Additional menu definitions are given via config method 'memodump_menu_def(request)'.
+        See the code below or project wiki for details.
+
+        @param d: parameter dictionary
+        @rtype: string
+        @return: menu html
+        """
+        request = self.request
+        _ = request.getText
+        rev = request.rev
+        page = d['page']
+
+        page_recent_changes = wikiutil.getLocalizedPage(request, u'RecentChanges')
+        page_find_page = wikiutil.getLocalizedPage(request, u'FindPage')
+        page_help_contents = wikiutil.getLocalizedPage(request, u'HelpContents')
+        page_help_formatting = wikiutil.getLocalizedPage(request, u'HelpOnFormatting')
+        page_help_wikisyntax = wikiutil.getLocalizedPage(request, u'HelpOnMoinWikiSyntax')
+        page_title_index = wikiutil.getLocalizedPage(request, u'TitleIndex')
+        page_word_index = wikiutil.getLocalizedPage(request, u'WordIndex')
+        page_front_page = wikiutil.getFrontPage(request)
+        page_sidebar = Page(request, request.getPragma('sidebar', u'SideBar'))
+        quicklink = self.menuQuickLink(page)
+        subscribe = self.menuSubscribe(page)
+
 
         # menu element definitions
         menu_def = {
@@ -768,7 +863,7 @@ class Theme(ThemeBase):
         except AttributeError:
             pass
 
-        compiled = self.menuCompile(d, menu, menu_def)
+        compiled = self.menuCompile(d, menu_entries, menu_def)
         menubody = self.menuRender(compiled)
 
         if menubody:
@@ -803,7 +898,7 @@ class Theme(ThemeBase):
             output = u'?' + output
         return output
 
-    def menuCompile(self, d, menu, menu_def):
+    def menuCompile(self, d, menu, available_entries):
         """
         Return a compiled list of menu data ready to input to renderer.
         """
@@ -833,7 +928,7 @@ class Theme(ThemeBase):
         compiled = [] # [('key', 'title', 'href', 'special'), ]
         for key in menu:
             # check if key is in the definitions list
-            data = menu_def.get(key)
+            data = available_entries.get(key)
             if data:
                 # 'removed', 'disabled', 'separator' or 'header'
                 if data.get('special'):
@@ -855,7 +950,7 @@ class Theme(ThemeBase):
                 # header
                 if header_match:
                     compiled.append(generateHeader(key, header_match.group(2)))
-                # action not in menu_def
+                # action not in available_entries
                 elif self.memodumpIsAvailableAction(page, key):
                     compiled.append(generateAction(key))
 
