@@ -1,12 +1,12 @@
-moinmoin-memodump
+moinmoin-eKladde
 =================
 
-A simple [MoinMoin][] theme based on [Twitter Bootstrap][].  
+A simple [MoinMoin][] theme based on memodump which features [Twitter Bootstrap][].  
 Comes with responsive navbar and sidebar.
 
 You can create your own sidebar by creating a page called `SideBar`.
 
-Tested with MoinMoin 1.9.7 on Python 2.7.5.
+Tested with MoinMoin 1.9.11 on Python 2.7.17.
 
 For details, please refer to [the project wiki][Wiki Home].
 
