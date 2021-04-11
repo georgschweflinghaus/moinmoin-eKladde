@@ -197,11 +197,11 @@ class Theme(ThemeBase):
 
 %(custom_post)s
 %(msg)s
-%(location)s
+%(title_area)s
 
 <!-- Page contents -->
 """ % {'sitename': self.logo(),
-       'location': self.location(d),
+       'title_area': self.title_area(d),
        'menu_overall': self.menu_overall(d),
        'new_page': self.new_page(d),
        'usermenu': self.username(d),
@@ -389,6 +389,31 @@ class Theme(ThemeBase):
           ''' % html
         return html
 
+
+    def title_area(self, d):
+        html ="""
+<div class="page-header container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            %(location)s
+        </div>
+        <div class="col-md-4">
+            <ul id="controls">
+                %(editbutton)s
+                %(menu_page)s
+                %(commentbutton)s
+            </ul>
+        </div>
+    </div>
+</div>
+"""
+        return html % {
+                'location': self.location(d),
+                'editbutton': self.editbutton(d),
+                'menu_page': self.menu_page(d),
+                'commentbutton': self.commentbutton(), }
+
+
     def title(self, d):
         """ Assemble the title (now using breadcrumbs)
 
@@ -413,14 +438,8 @@ class Theme(ThemeBase):
         html = '''
 <ul id="pagelocation">
 %(content)s
-%(edit)s
-%(menu_page)s
-%(commentbutton)s
 </ul>
-''' % { 'content': "".join(content),
-        'edit': self.editbutton(d),
-        'menu_page': self.menu_page(d),
-        'commentbutton': self.commentbutton(), }
+''' % { 'content': "".join(content)}
         return html
 
 

@@ -884,7 +884,7 @@ pre {
 }
 
 /*=========================================================
-   misc. elements
+   title header area
 ===========================================================*/
 
 /* used as nbsp */
@@ -899,8 +899,6 @@ pre {
 /* location area */
 #location {
     font-size: small;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 20px;
 }
 #location a {
     font-size: large;}
@@ -942,6 +940,25 @@ pre {
 #pagelocation li:last-child a {
     color: #999;
 }
+
+.page-header { /*overwrite Bootstrap class*/
+    margin-top: 0px;
+}
+
+#controls {
+    float: right;
+    vertical-align: middle;
+}
+
+#controls li {
+    display: inline-block;
+    list-style: none;
+    margin-left: 15px;
+}
+
+/*=========================================================
+   Footer
+===========================================================*/
 /* footer font-size */
 #footer div > * {
     font-size: 85%;
