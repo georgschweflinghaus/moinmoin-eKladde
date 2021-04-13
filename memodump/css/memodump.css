@@ -960,12 +960,12 @@ pre {
     margin-top: 0px;
 }
 
-#controls {
+#pagecontrols {
     float: right;
     vertical-align: middle;
 }
 
-#controls li {
+#pagecontrols > li {
     display: inline-block;
     list-style: none;
     margin-left: 15px;
