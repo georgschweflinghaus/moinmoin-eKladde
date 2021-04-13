@@ -168,7 +168,7 @@ class Theme(ThemeBase):
             <!-- Search form -->
 %(search)s
             <!-- Menu -->
-%(menu_overall)s
+%(menu_global)s
             <!-- Login user -->
 %(usermenu)s
 
@@ -202,7 +202,7 @@ class Theme(ThemeBase):
 <!-- Page contents -->
 """ % {'sitename': self.logo(),
        'title_area': self.title_area(d),
-       'menu_overall': self.menu_overall(d),
+       'menu_global': self.menu_global(d),
        'new_page': self.new_page(d),
        'usermenu': self.username(d),
        'search': self.searchform(d),
@@ -234,7 +234,7 @@ class Theme(ThemeBase):
         </li>
 ''' % {'page': d['page'].split_title(), 'placeholder': '%s'}
         return html
-#<input type="submit" id="add-page-button" class="form-control" value="Add page">
+
     def editorheader(self, d, **kw):
         """
         header() for edit mode. Just set edit mode flag and call self.header().
@@ -398,7 +398,7 @@ class Theme(ThemeBase):
             %(location)s
         </div>
         <div class="col-md-4">
-            <ul id="controls">
+            <ul id="pagecontrols">
                 %(editbutton)s
                 %(menu_page)s
                 %(commentbutton)s
@@ -548,18 +548,20 @@ class Theme(ThemeBase):
         if not (page.isWritable() and
                 self.request.user.may.write(page.page_name)):
             button = self.disabledEdit()
-            li_attr = u' class="disabled"'
+            li_attr = u'class="disabled"'
+        elif 'edit_mode' in d and d['edit_mode']:
+            li_attr = u'class="disabled"'
         else:
             _ = self.request.getText
             querystr = {'action': 'edit'}
-            text = u'<span class="hidden-sm">%s</span>' % _(' ')
-            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'menu-nav-edit'}
+            text = u'<span class="padding"></span>'
+            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'menu-nav-edit btn btn-default'}
             button = page.link_to_raw(self.request, text=text, querystr=querystr, **attrs)
             if edit_mode:
-                li_attr = u' class="active"'
+                li_attr = u'class="active"'
 
         html = u'''
-            <li%s>
+            <li %s>
               %s
             </li>
 ''' % (li_attr, button)
@@ -570,7 +572,7 @@ class Theme(ThemeBase):
         """ Return a disabled edit link """
         _ = self.request.getText
         html = u'%s<span class="hidden-sm">%s</span>%s' % (
-                   self.request.formatter.url(1, css="menu-nav-edit"),
+                   self.request.formatter.url(1, css="menu-nav-edit btn btn-default"),
                    _('Immutable Page'),
                    self.request.formatter.url(0)
                )
@@ -673,8 +675,8 @@ class Theme(ThemeBase):
         return html
 
 
-    def menu_overall(self, d):
-        """ The menu for non page related overall functions
+    def menu_global(self, d):
+        """ The menu for non page related global functions
         """
         request = self.request
         try:
@@ -696,11 +698,27 @@ class Theme(ThemeBase):
                 'HelpContents',
                 'HelpOnMoinWikiSyntax',
             ]
-            return self._menu(d, menu_entries)
+
+        menu_html_list = self._menu(d, menu_entries)
+        _ = request.getText
+
+        html = u'''
+        <li class="dropdown">
+          <!-- Menu button -->
+          <a href="#" class="menu-nav-menu dropdown-toggle" data-toggle="dropdown">
+            %(menu_name)s<span class="padding"></span><span class="caret"></span>
+          </a>
+          <!-- Dropdown contents -->
+          <ul class="dropdown-menu">
+%(menu_list)s
+          </ul>
+        </li> <!-- /dropdown -->
+''' % {'menu_name': _('Menu'),'menu_list': menu_html_list}
+        return html
 
 
     def menu_page(self, d):
-        """ The menu for  page related  functions
+        """ The menu for content page related functions
         """
         request = self.request
         try:
@@ -729,7 +747,23 @@ class Theme(ThemeBase):
                 'quicklink',
                 'subscribe',
             ]
-            return self._menu(d, menu_entries)
+
+        menu_html_list = self._menu(d, menu_entries)
+        _ = request.getText
+        html = u'''
+        <li class="dropdown">
+          <!-- Menu button -->
+          <a href="#" class="menu-nav-menu dropdown-toggle btn btn-default" data-toggle="dropdown">
+            %(menu_name)s<span class="padding"></span><span class="caret"></span>
+          </a>
+          <!-- Dropdown contents -->
+          <ul class="dropdown-menu">
+%(menu_list)s
+          </ul>
+        </li> <!-- /dropdown -->
+''' % {'menu_name': _('Option'),'menu_list': menu_html_list}
+
+        return html
 
 
 
@@ -747,9 +781,9 @@ class Theme(ThemeBase):
         @return: menu html
         """
         request = self.request
-        _ = request.getText
         rev = request.rev
         page = d['page']
+        _ = request.getText
 
         page_recent_changes = wikiutil.getLocalizedPage(request, u'RecentChanges')
         page_find_page = wikiutil.getLocalizedPage(request, u'FindPage')
@@ -868,18 +902,7 @@ class Theme(ThemeBase):
         menubody = self.menuRender(compiled)
 
         if menubody:
-            html = u'''
-            <li class="dropdown">
-              <!-- Menu button -->
-              <a href="#" class="menu-nav-menu dropdown-toggle" data-toggle="dropdown">
-                %s<span class="padding"></span><span class="caret"></span>
-              </a>
-              <!-- Dropdown contents -->
-              <ul class="dropdown-menu">
-%s
-              </ul>
-            </li> <!-- /dropdown -->
-''' % (_('Menu'), menubody)
+            html = menubody
         else:
             html = u''
 
