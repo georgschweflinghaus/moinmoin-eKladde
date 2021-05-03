@@ -146,7 +146,6 @@ form.form-search:before {
         position: relative;
     }
     .navbar .navbar-collapse {
-        position: absolute;
         right: 15px;
     }
 }

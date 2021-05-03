@@ -162,9 +162,13 @@ class Theme(ThemeBase):
         <div class="collapse navbar-collapse">
 
           <!-- Navbar elements -->
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-left">
             <!-- New Button -->
 %(new_page)s
+          </ul> <!-- /.navbar-left -->
+
+          <ul class="nav navbar-nav navbar-right">
+            
             <!-- Search form -->
 %(search)s
             <!-- Menu -->
