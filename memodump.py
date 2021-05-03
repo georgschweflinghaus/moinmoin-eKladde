@@ -402,8 +402,8 @@ class Theme(ThemeBase):
                 %(editbutton)s
                 %(menu_page)s
                 %(commentbutton)s
-            </ul>
-        </div>
+            </ul><!--id=pagecontrols -->
+        </div><!-- column -->
     </div>
 </div>
 """
