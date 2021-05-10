@@ -4,12 +4,15 @@ main {
   height: 100vh;
   height: -webkit-fill-available;
   overflow-x: auto;
-  overflow-y: hidden;
 }
-main > * {
+
+main > div {
+  margin-top: 5rem;
+}
+/* main > * {
   flex-shrink: 0;
   min-height: -webkit-fill-available;
-}
+} */
 
 /* NAVIGATION DROPDOWN MENUS */
 
@@ -24,7 +27,7 @@ main > * {
 
 .dropdown-toggle { outline: 0; }
 
-.nav-flush .nav-link {
+.nav-link {
   border-radius: 0;
 }
 
