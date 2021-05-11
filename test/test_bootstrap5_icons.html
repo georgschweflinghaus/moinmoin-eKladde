@@ -25,7 +25,7 @@
 
 <nav id="head_bar" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">MoinMoin eKladde</a>
+    <a class="navbar-brand col-md-3 col-lg-2" href="#">MoinMoin eKladde</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,8 +37,8 @@
         <li class="nav-item">
           <a href="#" class="nav-link">
             <div class="input-group">
-              <input type="text" placeholder="Sub page" id="inputSubPage" class="form-control" aria-label="Text input to add a sub page.">
-              <button class="btn btn-primary" type="button">Add<i class="bi-plus"></i></button>
+              <input type="text" placeholder="Sub page" id="add-input" class="form-control" aria-label="Text input to add a sub page.">
+              <button id="add-button" class="btn btn-primary" type="button">Add</button>
             </div>
         </a>
         </li>
@@ -47,8 +47,8 @@
       <!-- Search form -->
       <form class="d-flex">
         <div class="input-group">
-          <input type="search" placeholder="search" id="inputSubPage" class="form-control" aria-label="Text input to add a sub page.">
-          <button class="btn btn-primary" type="submit">Search<i class="bi-search"></i></button>
+          <input type="search" placeholder="search" id="search-input" class="form-control" aria-label="Text input to add a sub page.">
+          <button id="search-button" class="btn btn-primary" type="submit">Search</button>
         </div>
       </form>
 
@@ -88,9 +88,10 @@
 
       </ul>
     </div> <!-- Navbar top right side -->
-  </div>
+  </div> <!--div container fluid -->
 </nav>
 
+<!-- Left menu and main content in a row -->
 <div class="container-fluid">
   <div class="row">
     <div id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -142,7 +143,7 @@
     </div>
 
      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="bg-light w-100">
+      <div class="doc_border w-100">
         <h1>Bootstrap 5 example for eKladde</h1>
         <p >Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
