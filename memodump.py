@@ -105,21 +105,21 @@ class Theme(ThemeBase):
     stylesheets = (
         # media         basename
         ('all',         'bootstrap.min'),
-        ('all',         'bootstrap-theme.min'),
-        ('all',         'memodump'),
+        ('all',         '../font/bootstrap-icons'),
+        ('all',         'ekladde'),
         ('all',         'moinizer'),
     )
     stylesheets_print = (
         ('all',         'bootstrap.min'),
-        ('all',         'bootstrap-theme.min'),
-        ('all',         'memodump'),
+        ('all',         '../font/bootstrap-icons'),
+        ('all',         'ekladde'),
         ('all',         'moinizer'),
         ('all',         'memoprint'),
     )
     stylesheets_projection = (
         ('all',         'bootstrap.min'),
-        ('all',         'bootstrap-theme.min'),
-        ('all',         'memodump'),
+        ('all',         '../font/bootstrap-icons'),
+        ('all',         'ekladde'),
         ('all',         'moinizer'),
         ('all',         'memoslide'),
     )
@@ -135,69 +135,152 @@ class Theme(ThemeBase):
         """
 
         html = u"""
-  <div id="outbox" class="sidebar-toggle">
-    <!-- Bootstrap navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top navbar-mobile-toggle" role="navigation">
-      <div class="container">
+<!-- memodump.py header() START -->
+<nav id="head_bar" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand col-md-3 col-lg-2" href="#">
+        <!-- Sitename -->
+        %(sitename)s
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- Navbar header -->
-        <div class="navbar-header">
-          <!-- Sidebar toggler -->
-          <button type="button" class="btn navbar-btn sidebar-toggler" data-toggle="toggle" data-target=".sidebar-toggle">
-            <span class="sr-only">Toggle sidebar</span>
-            <span class="menu-btn-sidebar-toggler sidebar-toggle"></span>
-          </button>
-          <!-- Button to show navbar controls when collapsed -->
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!-- Sitename -->
-%(sitename)s
-        </div> <!-- /.navbar-header -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
 
-        <!-- Body of navbar -->
-        <div class="collapse navbar-collapse">
+      <!-- Add form -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+        %(new_page)s
+        </li>
+      </ul>
 
-          <!-- Navbar elements -->
-          <ul class="nav navbar-nav navbar-left">
-            <!-- New Button -->
-%(new_page)s
-          </ul> <!-- /.navbar-left -->
-
-          <ul class="nav navbar-nav navbar-right">
-            
-            <!-- Search form -->
-%(search)s
+      <!-- Search form -->
+      %(search)s
+<!--
+      <form class="d-flex">
+        <div class="input-group">
+          <input type="search" placeholder="search" id="search-input" class="form-control" aria-label="Text input to add a sub page.">
+          <button id="search-button" class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </form>
+-->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <!-- Dropdown button -->
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
+            Menu
+          </a>
+          <!-- Dropdown contents -->
+          <ul class="dropdown-menu">
             <!-- Menu -->
-%(menu_global)s
-            <!-- Login user -->
-%(usermenu)s
+            %(menu_global)s
+<!--
+                <li class="dropdown-header">Navigation</li>
+                <li><a href="/RecentChanges" class="dropdown-item bi-clock" rel="nofollow">RecentChanges</a></li>
+                <li><a href="/FindPage" class="dropdown-item bi-search" rel="nofollow">FindPage</a></li>
+                <li><a href="/KnowHow/GitLab?action=LocalSiteMap&amp;rev=6" class="dropdown-item bi-map" rel="nofollow">ÜbersichtsKarte</a></li>
+                <li class="border-top"></li>
+                <li class="dropdown-item dropdown-header">Editieren</li>
+                <li><a href="/SideBar?action=edit" class="dropdown-item bi-pen" rel="nofollow">Edit SideBar</a></li>
+                <li class="border-top"></li>
+                <li class="dropdown-header">Help</li>
+                <li><a href="/HelpContents" class="dropdown-item bi-question-circle" rel="nofollow">HelpContents</a></li>
+                <li><a href="/HelpOnMoinWikiSyntax" class="dropdown-item bi-question-circle" rel="nofollow">HelpOnMoinWikiSyntax</a></li>
+-->
+          </ul>
+        </li> <!-- /dropdown -->
 
-          </ul> <!-- /.navbar-right -->
+        <!-- menu user logout dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
+              <span class="nav-maxwidth-100">User</span>
+            </a>
+              <ul class="dropdown-menu">
 
-        </div> <!-- /.collapse -->
-      </div> <!-- /.container -->
-    </div> <!-- /.navbar -->
-    <!-- End of navbar -->
+                <!-- Menu -->
+                %(usermenu)s
 
-    <div class="container no-padding" id="pagebox">
-%(custom_pre)s
+<!--
+                <li><a class="dropdown-item menu-dd-userhome bi-person-circle" href="/user" rel="nofollow" title="user @ Self">User</a></li>
+                <li><a class="dropdown-item menu-dd-userprefs bi-gear-fill" href="/KnowHow/GitLab?action=userprefs" rel="nofollow">Einstellungen</a></li>
+                <li><a class="dropdown-item menu-dd-logout bi-box-arrow-right" href="/KnowHow/GitLab?action=logout&amp;logout=logout" rel="nofollow">Abmelden</a></li>
+-->
+              </ul>
+        </li>
 
-      <!-- Sidebar -->
-      <div class="sidebar-toggle" id="sidebar-curtain">
-        <div class="sidebar-toggle" id="sidebar-mover">
-          <div class="sidebar-toggle" id="sidebar" role="navigation">
+      </ul>
+    </div> <!-- Navbar top right side -->
+  </div> <!--div container fluid -->
+</nav>
+
+<!-- Left menu and main content in a row -->
+<div class="container-fluid">
+  <div class="row">
+    <div id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+
 <!-- SideBar contents -->
 %(sidebar)s
 <!-- End of SideBar contents -->
 %(navilinks)s
 %(trail)s
-          </div> <!-- /#sidebar -->
-        </div> <!-- /#sidebar-mover -->
-      </div><div id="contentbox"> <!-- End of Sidebar and Beginning of content -->
+
+<!--
+       <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+         <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+         <span class="fs-5 fw-semibold">Collapsible</span>
+       </a>
+       <ul class="list-unstyled ps-0">
+         <li class="mb-1">
+           <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+             KnowHow
+           </button>
+           <div class="collapse show" id="home-collapse">
+             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+               <li><a href="#" class="link-dark rounded">Recipies</a></li>
+               <li><a href="#" class="link-dark rounded">Hairdresser</a></li>
+               <li><a href="#" class="link-dark rounded">Barbers</a></li>
+             </ul>
+           </div>
+         </li>
+         <li class="border-top my-3"></li>
+         <li class="mb-1">
+           <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+             Navigation
+           </button>
+           <div class="collapse" id="dashboard-collapse">
+             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+               <li><a href="#" class="link-dark rounded">RecentChanges</a></li>
+               <li><a href="#" class="link-dark rounded">FindPage</a></li>
+               <li><a href="#" class="link-dark rounded">HelpContent</a></li>
+             </ul>
+           </div>
+         </li>
+         <li class="mb-1">
+           <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+             Trail
+           </button>
+           <div class="collapse" id="orders-collapse">
+             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+               <li><a href="#" class="link-dark rounded">HaliGali</a></li>
+               <li><a href="#" class="link-dark rounded">Hairy</a></li>
+               <li><a href="#" class="link-dark rounded">Fairy</a></li>
+               <li><a href="#" class="link-dark rounded">Dairy</a></li>
+             </ul>
+           </div>
+         </li>
+
+       </ul>
+    </div><!-- sidebar end -->
+
+     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="doc_border w-100">
+<!-- memodump.py header() STOP -->
+
+<!--??-->
+    <div class="container no-padding" id="pagebox">
+%(custom_pre)s
+<!--??-->
 
 %(custom_post)s
 %(msg)s
@@ -223,19 +306,16 @@ class Theme(ThemeBase):
 
     def new_page(self, d, **keywords):
         html='''
-        <li>
-            <div class="navbar-form">
-                <form class="macro" method="POST" action="/%(page)s">
-                    <input type="hidden" name="action" value="newpage">
-                    <input type="hidden" name="parent" value="%(page)s">
-                    <input type="hidden" name="template" value="">
-                    <input type="hidden" name="nametemplate" value="%(placeholder)s">
-                    <input type="text" name="pagename" id="add-page-input" class="form-control" placeholder="Page" size="30">
-                    <label for="newpage" id="add-page-button" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i></label>
-                    <input id="newpage" name="newpage" type="submit" value="Page" class="hidden">
-                </form>
-            </div>
-        </li>
+            <form class="me-auto" method="POST" action="/%(page)s">
+                <div class="input-group">
+                        <input type="hidden" name="action" value="newpage">
+                        <input type="hidden" name="parent" value="%(page)s">
+                        <input type="hidden" name="template" value="">
+                        <input type="hidden" name="nametemplate" value="%(placeholder)s">
+                        <input type="text" placeholder="Sub page" id="add-input" class="form-control" aria-label="Text input to add a sub page.">
+                        <button id="add-button" class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
 ''' % {'page': d['page'].split_title(), 'placeholder': '%s'}
         return html
 
@@ -384,13 +464,9 @@ class Theme(ThemeBase):
         """
         html = u''
         if self.cfg.logo_string:
-            page = wikiutil.getFrontPage(self.request)
-            html = page.link_to_raw(self.request, self.cfg.logo_string, css_class="navbar-brand")
-            html = u'''
-          <div class="navbar-brand-wrapper">
-            %s
-          </div>
-          ''' % html
+            # page = wikiutil.getFrontPage(self.request)
+            # html = page.link_to_raw(self.request, self.cfg.logo_string, css_class="navbar-brand")
+            html = u'''%s''' % self.cfg.logo_string
         return html
 
 
@@ -520,18 +596,14 @@ class Theme(ThemeBase):
         d.update(updates)
 
         html = u'''
-          <li>
-            <div class="navbar-form">
-              <form class="form-search" role="search" id="searchform" method="get" action="%(url)s">
-                <input type="hidden" name="action" value="fullsearch">
-                <input type="hidden" name="context" value="180">
-                <div class="form-group">
-                  <label class="sr-only" for="searchinput">%(search_label)s</label>
-                  <input id="searchinput" type="text" class="form-control form-search" placeholder="%(search_hint)s" name="value" value="%(search_value)s">
-                </div>
-              </form>
-            </div>
-          </li>
+                <form class="d-flex" role="search" id="searchform" method="get" action="%(url)s">
+                    <input type="hidden" name="action" value="fullsearch">
+                    <input type="hidden" name="context" value="180">
+                    <div class="input-group">
+                        <input type="search" placeholder="search" id="search-input" class="form-control" aria-label="Text input to add a sub page.">
+                        <button id="search-button" class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </form>
 ''' % d
         return html
 
