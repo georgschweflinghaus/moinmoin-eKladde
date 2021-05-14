@@ -188,22 +188,17 @@ class Theme(ThemeBase):
 
 
     </div><!-- sidebar end -->
-
+%(custom_pre)s
      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="doc_border w-100">
 
-<!--??-->
-    <div class="container no-padding" id="pagebox">
-%(custom_pre)s
-<!--??-->
-
 %(custom_post)s
 %(msg)s
-%(title_area)s
+%(page_title_controls)s
 <!-- ekladde.py header() STOP -->
 <!-- Page contents -->
 """ % {'sitename': self.logo(),
-       'title_area': self.title_area(d),
+       'page_title_controls': self.page_title_controls(d),
        'menu_global': self.menu_global(d),
        'new_page': self.new_page(d),
        'menu_user': self.menu_user(d),
@@ -384,28 +379,37 @@ class Theme(ThemeBase):
             html = u'''%s''' % self.cfg.logo_string
         return html
 
+    def page_title_controls(self, d):
+        html = u'''
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+      <ul class="navbar-nav">
 
-    def title_area(self, d):
-        html ="""
-<div class="page-header container-fluid">
-    <div class="row">
-        <div class="col-md-8">
+        <li class="nav-item">
             %(location)s
-        </div>
-        <div class="col-md-4">
-            <ul id="pagecontrols">
-                %(editbutton)s
-                %(menu_page)s
-                %(commentbutton)s
-            </ul><!--id=pagecontrols -->
-        </div><!-- column -->
-    </div>
-</div>
-"""
+        </li>
+
+        <li class="nav-item btn btn-default">
+          %(editbutton)s
+        </li>
+
+        <li class="nav-item dropdown">
+          %(page_menu)s
+        </li>
+
+        <li class="nav-item">
+          %(commentbutton)s
+        </li>
+
+      </ul>
+  </div>
+</nav>
+'''
+
         return html % {
                 'location': self.location(d),
                 'editbutton': self.editbutton(d),
-                'menu_page': self.menu_page(d),
+                'page_menu': self.page_menu(d),
                 'commentbutton': self.commentbutton(), }
 
 
@@ -430,12 +434,7 @@ class Theme(ThemeBase):
         else:
             content.append('<li>%s</li>' % wikiutil.escape(d['title_text']))
 
-        html = '''
-<ul id="pagelocation">
-%(content)s
-</ul>
-''' % { 'content': "".join(content)}
-        return html
+        return "".join(content)
 
 
     def location(self, d):
@@ -453,11 +452,9 @@ class Theme(ThemeBase):
             pass
         if not page.page_name in pages_hide:
             html = u'''
-        <div id="location">
-%(interwiki)s
-%(pagename)s
-          %(lastupdate)s
-        </div>
+            %(interwiki)s
+            %(pagename)s
+            %(lastupdate)s
 ''' % { 'interwiki': self.interwiki(d),
         'pagename': self.title(d),
         'lastupdate': self.lastupdate(d)}
@@ -533,37 +530,26 @@ class Theme(ThemeBase):
         if 'edit' in self.request.cfg.actions_excluded:
             return u""
 
-        button = u''
+        editlink_button = u''
         li_attr = u''
 
         if not (page.isWritable() and
                 self.request.user.may.write(page.page_name)):
-            button = self.disabledEdit()
-            li_attr = u'class="disabled"'
-        elif 'edit_mode' in d and d['edit_mode']:
-            li_attr = u'class="disabled"'
+            editlink_button = self.disabledEdit()
         else:
             _ = self.request.getText
             querystr = {'action': 'edit'}
             text = u'<span class="padding"></span>'
-            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'menu-nav-edit btn btn-default'}
-            button = page.link_to_raw(self.request, text=text, querystr=querystr, **attrs)
-            if edit_mode:
-                li_attr = u'class="active"'
+            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'btn btn-default'}
+            editlink_button = page.link_to_raw(self.request, text=text, querystr=querystr, **attrs)
 
-        html = u'''
-            <li %s>
-              %s
-            </li>
-''' % (li_attr, button)
-
-        return html
+        return editlink_button
 
     def disabledEdit(self):
         """ Return a disabled edit link """
         _ = self.request.getText
         html = u'%s<span class="hidden-sm">%s</span>%s' % (
-                   self.request.formatter.url(1, css="menu-nav-edit btn btn-default"),
+                   self.request.formatter.url(1, css="btn btn-default disabled"),
                    _('Immutable Page'),
                    self.request.formatter.url(0)
                )
@@ -632,17 +618,7 @@ class Theme(ThemeBase):
             for page_link in userlinks:
                 menu_list += u'''<li>%(link)s</li>
 ''' % {'link': page_link}
-            html = u'''
-                  <!-- Dropdown button -->
-                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
-                    %(menu_name)s
-                  </a>
-                  <!-- Dropdown contents -->
-                  <ul class="dropdown-menu">
-                    %(menu_list)s
-                  </ul>
-                  ''' % {'menu_name': name, 'menu_list': menu_list}
-            return html
+            return self.html_drop_down_menu(name, menu_list)
         else:
             query = {'action': 'login'}
             # special direct-login link if the auth methods want no input
@@ -689,20 +665,9 @@ class Theme(ThemeBase):
         menu_html_list = self._menu(d, menu_entries)
         _ = request.getText
 
-        html = u'''
-                  <!-- Dropdown button -->
-                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
-                    %(menu_name)s
-                  </a>
-                  <!-- Dropdown contents -->
-                  <ul class="dropdown-menu">
-                    %(menu_list)s
-                  </ul>
-''' % {'menu_name': _('Menu'),'menu_list': menu_html_list}
-        return html
+        return self.html_drop_down_menu(_('Menu'), menu_html_list)
 
-
-    def menu_page(self, d):
+    def page_menu(self, d):
         """ The menu for content page related functions
         """
         request = self.request
@@ -735,22 +700,20 @@ class Theme(ThemeBase):
 
         menu_html_list = self._menu(d, menu_entries)
         _ = request.getText
+        return self.html_drop_down_menu(_('Option'), menu_html_list)
+
+    def html_drop_down_menu(self, name, menu_list):
         html = u'''
-        <li class="dropdown">
-          <!-- Menu button -->
-          <a href="#" class="menu-nav-menu dropdown-toggle btn btn-default" data-toggle="dropdown">
-            %(menu_name)s<span class="padding"></span><span class="caret"></span>
-          </a>
-          <!-- Dropdown contents -->
-          <ul class="dropdown-menu">
-%(menu_list)s
-          </ul>
-        </li> <!-- /dropdown -->
-''' % {'menu_name': _('Option'),'menu_list': menu_html_list}
-
+              <!-- Dropdown button -->
+              <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
+                %(menu_name)s
+              </a>
+              <!-- Dropdown contents -->
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                %(menu_list)s
+              </ul>
+              ''' % {'menu_name': name, 'menu_list': menu_list}
         return html
-
-
 
     def _menu(self, d, menu_entries):
         """
