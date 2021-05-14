@@ -615,18 +615,18 @@ class Theme(ThemeBase):
             wikitag, wikiurl, wikitail, wikitag_bad = wikiutil.resolve_interwiki(self.request, *interwiki)
             wikiurl = wikiutil.mapURL(self.request, wikiurl)
             href = wikiutil.join_wiki(wikiurl, wikitail)
-            homelink = (request.formatter.url(1, href, title=title, css='dropdown-item', rel="nofollow") +
+            homelink = (request.formatter.url(1, href, title=title, css='dropdown-item bi-person-circle', rel="nofollow") +
                        request.formatter.text(name) +
                        request.formatter.url(0))
             userlinks.append(homelink)
 
             # link to userprefs action
             if 'userprefs' not in self.request.cfg.actions_excluded:
-                userlinks.append(d['page'].link_to_raw(request, text=_('Settings'), css_class='dropdown-item bi-cog',
+                userlinks.append(d['page'].link_to_raw(request, text=_('Settings'), css_class='dropdown-item bi-gear',
                                                        querystr={'action': 'userprefs'}, rel='nofollow'))
             # logout link
             if request.user.auth_method in request.cfg.auth_can_logout:
-                userlinks.append(d['page'].link_to_raw(request, text=_('Logout'), css_class='dropdown-item bi-box',
+                userlinks.append(d['page'].link_to_raw(request, text=_('Logout'), css_class='dropdown-item bi-box-arrow-right',
                                                        querystr={'action': 'logout', 'logout': 'logout'}, rel='nofollow'))
             menu_list = u''
             for page_link in userlinks:
