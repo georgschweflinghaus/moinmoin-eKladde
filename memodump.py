@@ -1,4 +1,5 @@
 # -*- coding: iso-8859-1 -*-
+
 """
     MoinMoin - memodump theme
 
@@ -135,7 +136,7 @@ class Theme(ThemeBase):
         """
 
         html = u"""
-<!-- memodump.py header() START -->
+<!-- ekladde.py header() START -->
 <nav id="head_bar" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand col-md-3 col-lg-2" href="#">
@@ -157,57 +158,17 @@ class Theme(ThemeBase):
 
       <!-- Search form -->
       %(search)s
-<!--
-      <form class="d-flex">
-        <div class="input-group">
-          <input type="search" placeholder="search" id="search-input" class="form-control" aria-label="Text input to add a sub page.">
-          <button id="search-button" class="btn btn-primary" type="submit">Search</button>
-        </div>
-      </form>
--->
+
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <!-- Dropdown button -->
-          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
-            Menu
-          </a>
-          <!-- Dropdown contents -->
-          <ul class="dropdown-menu">
             <!-- Menu -->
             %(menu_global)s
-<!--
-                <li class="dropdown-header">Navigation</li>
-                <li><a href="/RecentChanges" class="dropdown-item bi-clock" rel="nofollow">RecentChanges</a></li>
-                <li><a href="/FindPage" class="dropdown-item bi-search" rel="nofollow">FindPage</a></li>
-                <li><a href="/KnowHow/GitLab?action=LocalSiteMap&amp;rev=6" class="dropdown-item bi-map" rel="nofollow">ÜbersichtsKarte</a></li>
-                <li class="border-top"></li>
-                <li class="dropdown-item dropdown-header">Editieren</li>
-                <li><a href="/SideBar?action=edit" class="dropdown-item bi-pen" rel="nofollow">Edit SideBar</a></li>
-                <li class="border-top"></li>
-                <li class="dropdown-header">Help</li>
-                <li><a href="/HelpContents" class="dropdown-item bi-question-circle" rel="nofollow">HelpContents</a></li>
-                <li><a href="/HelpOnMoinWikiSyntax" class="dropdown-item bi-question-circle" rel="nofollow">HelpOnMoinWikiSyntax</a></li>
--->
-          </ul>
-        </li> <!-- /dropdown -->
+        </li> <!-- global menu .navbar-nav -->
 
         <!-- menu user logout dropdown -->
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
-              <span class="nav-maxwidth-100">User</span>
-            </a>
-              <ul class="dropdown-menu">
-
-                <!-- Menu -->
-                %(usermenu)s
-
-<!--
-                <li><a class="dropdown-item menu-dd-userhome bi-person-circle" href="/user" rel="nofollow" title="user @ Self">User</a></li>
-                <li><a class="dropdown-item menu-dd-userprefs bi-gear-fill" href="/KnowHow/GitLab?action=userprefs" rel="nofollow">Einstellungen</a></li>
-                <li><a class="dropdown-item menu-dd-logout bi-box-arrow-right" href="/KnowHow/GitLab?action=logout&amp;logout=logout" rel="nofollow">Abmelden</a></li>
--->
-              </ul>
-        </li>
+            %(menu_user)s
+        </li><!-- menu user .navbar-nav -->
 
       </ul>
     </div> <!-- Navbar top right side -->
@@ -225,57 +186,11 @@ class Theme(ThemeBase):
 %(navilinks)s
 %(trail)s
 
-<!--
-       <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-         <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-         <span class="fs-5 fw-semibold">Collapsible</span>
-       </a>
-       <ul class="list-unstyled ps-0">
-         <li class="mb-1">
-           <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-             KnowHow
-           </button>
-           <div class="collapse show" id="home-collapse">
-             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-               <li><a href="#" class="link-dark rounded">Recipies</a></li>
-               <li><a href="#" class="link-dark rounded">Hairdresser</a></li>
-               <li><a href="#" class="link-dark rounded">Barbers</a></li>
-             </ul>
-           </div>
-         </li>
-         <li class="border-top my-3"></li>
-         <li class="mb-1">
-           <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-             Navigation
-           </button>
-           <div class="collapse" id="dashboard-collapse">
-             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-               <li><a href="#" class="link-dark rounded">RecentChanges</a></li>
-               <li><a href="#" class="link-dark rounded">FindPage</a></li>
-               <li><a href="#" class="link-dark rounded">HelpContent</a></li>
-             </ul>
-           </div>
-         </li>
-         <li class="mb-1">
-           <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-             Trail
-           </button>
-           <div class="collapse" id="orders-collapse">
-             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-               <li><a href="#" class="link-dark rounded">HaliGali</a></li>
-               <li><a href="#" class="link-dark rounded">Hairy</a></li>
-               <li><a href="#" class="link-dark rounded">Fairy</a></li>
-               <li><a href="#" class="link-dark rounded">Dairy</a></li>
-             </ul>
-           </div>
-         </li>
 
-       </ul>
     </div><!-- sidebar end -->
 
      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="doc_border w-100">
-<!-- memodump.py header() STOP -->
 
 <!--??-->
     <div class="container no-padding" id="pagebox">
@@ -285,13 +200,13 @@ class Theme(ThemeBase):
 %(custom_post)s
 %(msg)s
 %(title_area)s
-
+<!-- ekladde.py header() STOP -->
 <!-- Page contents -->
 """ % {'sitename': self.logo(),
        'title_area': self.title_area(d),
        'menu_global': self.menu_global(d),
        'new_page': self.new_page(d),
-       'usermenu': self.username(d),
+       'menu_user': self.menu_user(d),
        'search': self.searchform(d),
        'sidebar': self.sidebar(d),
        'trail': self.trail(d),
@@ -671,9 +586,9 @@ class Theme(ThemeBase):
 ''' % _('Comments')
         return html
 
-    def username(self, d):
+    def menu_user(self, d):
         """ Assemble the username / userprefs link as dropdown menu
-        Assemble a login link instead in case of no login user.
+        Assemble a login link instead in case of no logged in user.
 
         @param d: parameter dictionary
         @rtype: unicode
@@ -695,29 +610,39 @@ class Theme(ThemeBase):
             if not aliasname:
                 aliasname = name
             title = "%s @ %s" % (aliasname, interwiki[0])
-            # make user button
-            userbutton = u'%s<span class="nav-maxwidth-100">%s</span><span class="padding"></span><span class="caret"></span>%s' % (
-                request.formatter.url(1, url="#", css="menu-nav-user dropdown-toggle", **{"data-toggle": "dropdown", "rel": "nofollow"}),
-                request.formatter.text(name),
-                request.formatter.url(0),
-                )
+
             # link to (interwiki) user homepage
             wikitag, wikiurl, wikitail, wikitag_bad = wikiutil.resolve_interwiki(self.request, *interwiki)
             wikiurl = wikiutil.mapURL(self.request, wikiurl)
             href = wikiutil.join_wiki(wikiurl, wikitail)
-            homelink = (request.formatter.url(1, href, title=title, css='menu-dd-userhome', rel="nofollow") +
+            homelink = (request.formatter.url(1, href, title=title, css='dropdown-item', rel="nofollow") +
                        request.formatter.text(name) +
                        request.formatter.url(0))
             userlinks.append(homelink)
 
             # link to userprefs action
             if 'userprefs' not in self.request.cfg.actions_excluded:
-                userlinks.append(d['page'].link_to_raw(request, text=_('Settings'), css_class='menu-dd-userprefs',
+                userlinks.append(d['page'].link_to_raw(request, text=_('Settings'), css_class='dropdown-item bi-cog',
                                                        querystr={'action': 'userprefs'}, rel='nofollow'))
             # logout link
             if request.user.auth_method in request.cfg.auth_can_logout:
-                userlinks.append(d['page'].link_to_raw(request, text=_('Logout'), css_class='menu-dd-logout',
+                userlinks.append(d['page'].link_to_raw(request, text=_('Logout'), css_class='dropdown-item bi-box',
                                                        querystr={'action': 'logout', 'logout': 'logout'}, rel='nofollow'))
+            menu_list = u''
+            for page_link in userlinks:
+                menu_list += u'''<li>%(link)s</li>
+''' % {'link': page_link}
+            html = u'''
+                  <!-- Dropdown button -->
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
+                    %(menu_name)s
+                  </a>
+                  <!-- Dropdown contents -->
+                  <ul class="dropdown-menu">
+                    %(menu_list)s
+                  </ul>
+                  ''' % {'menu_name': name, 'menu_list': menu_list}
+            return html
         else:
             query = {'action': 'login'}
             # special direct-login link if the auth methods want no input
@@ -727,28 +652,14 @@ class Theme(ThemeBase):
                 loginbutton = (d['page'].link_to_raw(request, text=_("Login"),
                                                      querystr=query, css_class='menu-nav-login', rel='nofollow'))
 
-        if userbutton:
-            userlinks_html = u'</li>\n                <li>'.join(userlinks)
-            html = u'''
-            <li class="dropdown">
-              %s
-              <ul class="dropdown-menu">
-                <li>%s</li>
-              </ul>
-            </li> <!-- /dropdown -->
-''' % (userbutton, userlinks_html)
-
-        elif loginbutton:
             html = u'''
             <li>
               %s
             </li>
 ''' % loginbutton
+            return html
 
-        else:
-            html = u''
-
-        return html
+        return u''
 
 
     def menu_global(self, d):
@@ -779,16 +690,14 @@ class Theme(ThemeBase):
         _ = request.getText
 
         html = u'''
-        <li class="dropdown">
-          <!-- Menu button -->
-          <a href="#" class="menu-nav-menu dropdown-toggle" data-toggle="dropdown">
-            %(menu_name)s<span class="padding"></span><span class="caret"></span>
-          </a>
-          <!-- Dropdown contents -->
-          <ul class="dropdown-menu">
-%(menu_list)s
-          </ul>
-        </li> <!-- /dropdown -->
+                  <!-- Dropdown button -->
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
+                    %(menu_name)s
+                  </a>
+                  <!-- Dropdown contents -->
+                  <ul class="dropdown-menu">
+                    %(menu_list)s
+                  </ul>
 ''' % {'menu_name': _('Menu'),'menu_list': menu_html_list}
         return html
 
@@ -1082,9 +991,9 @@ class Theme(ThemeBase):
 
     def menuRender(self, compiled):
         templates = {
-            False:       u'                <li><a href="%(href)s" class="menu-dd-%(key)s" rel="nofollow">%(title)s</a></li>',
-            'disabled':  u'                <li class="disabled"><a href="#" class="menu-dd-%(key)s" rel="nofollow">%(title)s</a></li>',
-            'separator': u'                <li class="divider"></li>',
+            False:       u'                <li><a href="%(href)s" class="dropdown-item menu-dd-%(key)s" rel="nofollow">%(title)s</a></li>',
+            'disabled':  u'                <li class="disabled"><a href="#" class="dropdown-item menu-dd-%(key)s" rel="nofollow">%(title)s</a></li>',
+            'separator': u'                <li class="border-top"></li>',
             'header':    u'                <li class="dropdown-header">%(title)s</li>',
             'removed':   u'',
         }
