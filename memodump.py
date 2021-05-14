@@ -512,8 +512,8 @@ class Theme(ThemeBase):
                     <input type="hidden" name="action" value="fullsearch">
                     <input type="hidden" name="context" value="180">
                     <div class="input-group">
-                        <input type="search" placeholder="search" id="search-input" class="form-control" aria-label="Text input to add a sub page.">
-                        <button id="search-button" class="btn btn-primary" type="submit">Search</button>
+                        <input type="search" placeholder="%(search_hint)s" id="search-input" class="form-control" aria-label="Text input to add a sub page.">
+                        <button id="search-button" class="btn btn-primary" type="submit">%(search_label)s</button>
                     </div>
                 </form>
 ''' % d
@@ -539,17 +539,15 @@ class Theme(ThemeBase):
         else:
             _ = self.request.getText
             querystr = {'action': 'edit'}
-            text = u'<span class="padding"></span>'
-            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'btn btn-default'}
-            editlink_button = page.link_to_raw(self.request, text=text, querystr=querystr, **attrs)
-
+            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'btn btn-primary', 'role': 'button', 'aria-disabled': 'true'}
+            editlink_button = page.link_to_raw(self.request, text=_('edit'), querystr=querystr, **attrs)
         return editlink_button
 
     def disabledEdit(self):
         """ Return a disabled edit link """
         _ = self.request.getText
         html = u'%s<span class="hidden-sm">%s</span>%s' % (
-                   self.request.formatter.url(1, css="btn btn-default disabled"),
+                   self.request.formatter.url(1, css="btn btn-primary disabled"),
                    _('Immutable Page'),
                    self.request.formatter.url(0)
                )
