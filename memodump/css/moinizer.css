@@ -118,7 +118,7 @@ strong.highlight {
 /* link type icons */
 #content a[class]:before,
 #content a[class]:after {
-    font-family: 'Glyphicons Halflings' !important;
+    font-family: 'bootstrap-icons' !important;
     font-style: normal;
     font-weight: normal;
     font-size: 83%;
@@ -135,40 +135,40 @@ strong.highlight {
 #content a.www:after,
 #content a.http:after,
 #content a.https:after {
-    content: "\e164"; /* .glyphicon-new-window */
+    content: "\f3ee"; /* .bi-globe */
 }
 #content a.badinterwiki:after,
 #content a.interwiki:after {
-    content: "\e144"; /* .glyphicon-link */
+    content: "\f470"; /* .bi-link-45deg */
 }
 
 /* icons before links */
 #content a.file:before {
-    content: "\e022"; /* .glyphicon-file */
+    content: "\f392"; /* .bi-file-earmark */
 }
 #content a.ftp:before {
-    content: "\e178"; /* .glyphicon-transfer */
+    content: "\f3dc"; /* .bi-forward */
 }
 #content a.nntp:before,
 #content a.news:before {
-    content: "\e028"; /* .glyphicon-inbox */
+    content: "\f4a3"; /* .bi-newspaper */
 }
 #content a.telnet:before,
 #content a.ssh:before {
-    content: "\e162"; /* .glyphicon-flash */
+    content: "\f46f"; /* .bi-lightning */
 }
 #content a.irc:before,
 #content a.ircs:before {
-    content: "\e111"; /* .glyphicon-comment */
+    content: "\f267"; /* .bi-chat-text */
 }
 #content a.mailto:before {
-    content: "\2709"; /* .glyphicon-envelope */
+    content: "\f32f"; /* .bi-envelope */
 }
 #content a.attachment:before {
-    content: "\e142"; /* .glyphicon-paperclip */
+    content: "\f4b3"; /* .bi-paperclip */
 }
 #content a.action:before {
-    content: "\e019"; /* .glyphicon-cog */
+    content: "\f3e5"; /* .bi-gear */
 }
 
 /* remove link icons on links with embedded images inside etc */
