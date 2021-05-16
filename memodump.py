@@ -222,7 +222,7 @@ class Theme(ThemeBase):
                         <input type="hidden" name="parent" value="%(page)s">
                         <input type="hidden" name="template" value="">
                         <input type="hidden" name="nametemplate" value="%(placeholder)s">
-                        <input type="text" placeholder="Sub page" id="add-input" class="form-control" aria-label="Text input to add a sub page.">
+                        <input type="text" name="pagename" placeholder="Sub page" id="add-input" class="form-control" aria-label="Text input to add a sub page.">
                         <button id="add-button" class="btn btn-primary" type="submit">Add</button>
                 </div>
             </form>
@@ -415,6 +415,9 @@ class Theme(ThemeBase):
                 'commentbutton': self.commentbutton(), }
 
 
+    def is_normal_document(self, d):
+        return d['title_text'] == d['page'].split_title()
+
     def document_breadcrumb_list(self, d):
         """ Assemble the breadcrumb for the document location
 
@@ -424,7 +427,7 @@ class Theme(ThemeBase):
         """
         _ = self.request.getText
         content = []
-        if d['title_text'] == d['page'].split_title(): # just showing a page, no action
+        if self.is_normal_document(d):
             pagepath = ''
             segments = d['page_name'].split('/') # was: title_text
             for s in segments[:-1]:
@@ -434,7 +437,7 @@ class Theme(ThemeBase):
             active_document_link = self.backlink(d['page'], d['page_name'], segments[-1])
             content.append(('<li class="breadcrumb-item  active">%s</li>') % active_document_link)
         else:
-            content.append('<li class="breadcrumb-item">%s</li>' % wikiutil.escape(d['title_text']))
+            content.append('<li class="btn btn-primary">%s</li>' % wikiutil.escape(d['title_text']))
 
         return "".join(content)
 
@@ -527,7 +530,7 @@ class Theme(ThemeBase):
                     <input type="hidden" name="action" value="fullsearch">
                     <input type="hidden" name="context" value="180">
                     <div class="input-group">
-                        <input type="search" placeholder="%(search_hint)s" id="search-input" class="form-control" aria-label="Text input to add a sub page.">
+                        <input type="search" name="value" placeholder="%(search_hint)s" id="search-input" class="form-control" aria-label="%(search_hint)s">
                         <button id="search-button" class="btn btn-primary" type="submit">%(search_label)s</button>
                     </div>
                 </form>
