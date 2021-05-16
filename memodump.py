@@ -506,7 +506,8 @@ class Theme(ThemeBase):
         if self.shouldShowPageinfo(page):
             info = page.lastEditInfo()
             if info:
-                html = u'%s %s' % (_('Last updated at'), info['time'])
+                html = _('last modified %(time)s')
+                html = html % {'time': info['time']}
         return html
 
     def searchform(self, d):
@@ -1249,6 +1250,8 @@ class Theme(ThemeBase):
         """
         _ = self.request.getText
         msgs = d['msg']
+        if not msgs:
+            return u''
 
         msg_conv = {
             'hint': 'alert-success',
@@ -1259,34 +1262,20 @@ class Theme(ThemeBase):
 
         result = []
         template = u'''
-        <div class="alert %(dismiss)s%(color)s">
-          %(close)s
-          %(msg)s
+        <div class="alert %(alert_type)s alert-dismissible fade show" role="alert">
+            %(msg)s
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 '''
-        param = {
-            'close': u'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>',
-            'dismiss': 'alert-dismissible ',
-            'msg': '',
-            'color': '',
-        }
-
         for msg, msg_class in msgs:
-            param['color'] = msg_conv['info']
-            try:
-                param['msg'] = msg.render()
-                param['close'] = ''
-                param['dismiss'] = ''
-            except AttributeError:
-                if msg and msg_class:
-                    param['msg'] = msg
-                    if msg_class in msg_conv:
-                        param['color'] = msg_conv[msg_class]
-                elif msg:
-                    param['msg'] = msg
-            finally:
-                if msg:
-                    result.append(template % param)
+            if msg and msg_class:
+                if msg_class in msg_conv:
+                    result.append(template % {'alert_type': msg_conv[msg_class], 'msg': msg})
+                else:
+                    result.append(template % {'alert_type': msg_conv['info'], 'msg': msg})
+            elif msg:
+                result.append(template % {'alert_type': msg_conv['info'], 'msg': msg})
+
         if result:
             return u'\n'.join(result)
         else:
