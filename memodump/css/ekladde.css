@@ -14,10 +14,10 @@ main > div {
   min-height: -webkit-fill-available;
 } */
 
-/* ******* */
-/* NAVBAR  */
-/* ******* */
-nav {
+/* ************** */
+/* BANNER NAVBAR  */
+/* ************** */
+nav#banner {
   background: linear-gradient(45deg,#5a616d,#8492a6);
 }
 
@@ -39,9 +39,9 @@ input#add-input:focus, input#search-input:focus {
   background-color: white;
 }
 
-/* ******* */
-/* CONTENT */
-/* ******* */
+/* ************** */
+/* DOCUMENT       */
+/* ************** */
 .doc_border {
   box-shadow: 0 3px 3px -2px rgba(0,0,0,.2),0 3px 4px 0 rgba(0,0,0,.14),0 1px 8px 0 rgba(0,0,0,.12);
   /* background-color: #F5F5F5 !important; */
@@ -51,9 +51,17 @@ input#add-input:focus, input#search-input:focus {
   padding: 5px;
   background-color: #fcfcfc;
 }
-/* document title section */
-/* breadcrumb */
-#pagelocation {
+/* document navbar section */
+
+nav#document > div {
+  padding-left: 0;
+}
+
+nav#document ul {
+  padding: 0;
+}
+
+#documentinfo {
     font-size: large;
     display: inline-block;
     list-style: none;
@@ -61,23 +69,36 @@ input#add-input:focus, input#search-input:focus {
     padding: 0;
     margin: 0;
 }
-#pagelocation li {
+#documentinfo li {
     display: inline-block;
     padding: 0;
 }
-#pagelocation li:last-child, #pagelocation li:last-child a {
+#documentinfo li:last-child, #documentinfo li:last-child a {
     color: #999;
+}
+#documentinfo ol.breadcrumb {
+  font-size: small;
+}
+#document_name {
+  font-size: xx-large;
 }
 .lastupdate {
     display: block;
-    font-size: smaller;
+    font-size: small;
     font-style: italic;
     color: #999;
     padding: 0;
     margin: 0;
 }
 
+/* breadcrumb */
+.breadcrumb {
+  margin: 0;
+}
 
+#documentinfo nav {
+  --bs-breadcrumb-divider: '>';
+}
 
 /* **************************** */
 /* NAVIGATION DROPDOWN MENUS */

@@ -137,7 +137,7 @@ class Theme(ThemeBase):
 
         html = u"""
 <!-- ekladde.py header() START -->
-<nav id="head_bar" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav id="banner" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand col-md-3 col-lg-2" href="#">
         <!-- Sitename -->
@@ -194,11 +194,11 @@ class Theme(ThemeBase):
 
 %(custom_post)s
 %(msg)s
-%(page_title_controls)s
+%(document_title_controls)s
 <!-- ekladde.py header() STOP -->
 <!-- Page contents -->
 """ % {'sitename': self.logo(),
-       'page_title_controls': self.page_title_controls(d),
+       'document_title_controls': self.document_title_controls(d),
        'menu_global': self.menu_global(d),
        'new_page': self.new_page(d),
        'menu_user': self.menu_user(d),
@@ -379,14 +379,14 @@ class Theme(ThemeBase):
             html = u'''%s''' % self.cfg.logo_string
         return html
 
-    def page_title_controls(self, d):
+    def document_title_controls(self, d):
         html = u'''
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav id="document" class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <ul class="navbar-nav navbar-expand-lg me-auto">
-            <li class="nav-item me-auto">
+            <li id="documentinfo" class="nav-item me-auto">
                 <ul>
-                %(location)s
+                %(document_info)s
                 </ul>
             </li>
         </ul>
@@ -409,14 +409,14 @@ class Theme(ThemeBase):
 '''
 
         return html % {
-                'location': self.location(d),
+                'document_info': self.document_info(d),
                 'editbutton': self.editbutton(d),
                 'page_menu': self.page_menu(d),
                 'commentbutton': self.commentbutton(), }
 
 
-    def title(self, d):
-        """ Assemble the title (now using breadcrumbs)
+    def document_breadcrumb_list(self, d):
+        """ Assemble the breadcrumb for the document location
 
         @param d: parameter dictionary
         @rtype: string
@@ -425,23 +425,26 @@ class Theme(ThemeBase):
         _ = self.request.getText
         content = []
         if d['title_text'] == d['page'].split_title(): # just showing a page, no action
-            curpage = ''
+            pagepath = ''
             segments = d['page_name'].split('/') # was: title_text
             for s in segments[:-1]:
-                curpage += s
-                content.append("<li>%s</li>" % Page(self.request, curpage).link_to(self.request, s))
-                curpage += '/'
-            link = self.backlink(d['page'], d['page_name'], segments[-1])
-            content.append(('<li>%s</li>') % link)
+                pagepath += s
+                content.append('<li class="breadcrumb-item">%s</li>' % Page(self.request, pagepath).link_to(self.request, s))
+                pagepath += '/'
+            active_document_link = self.backlink(d['page'], d['page_name'], segments[-1])
+            content.append(('<li class="breadcrumb-item  active">%s</li>') % active_document_link)
         else:
-            content.append('<li>%s</li>' % wikiutil.escape(d['title_text']))
+            content.append('<li class="breadcrumb-item">%s</li>' % wikiutil.escape(d['title_text']))
 
         return "".join(content)
 
+    def document_name(self, d):
+        document_path_parts = d['page_name'].split('/')
+        return document_path_parts[-1]
 
-    def location(self, d):
-        """ Assemble location area on top of the page content.
-        Certain pages shouldn't have location area as it feels redundant.
+    def document_info(self, d):
+        """ Assemble document info area on top of the document actual content.
+        Certain pages shouldn't have info area as it feels redundant.
         Location area is excluded in FrontPage by default.
         Config variable memodump_hidelocation will override the list of pages to have no location area.
         """
@@ -455,10 +458,20 @@ class Theme(ThemeBase):
         if not page.page_name in pages_hide:
             html = u'''
             %(interwiki)s
-            %(pagename)s
-            %(lastupdate)s
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    %(document_breadcrumb_list)s
+                </ol>
+            </nav>
+            <span id="document_name">
+                %(document_name)s
+            </span>
+            <span class="lastupdate">
+                %(lastupdate)s
+            </span>
 ''' % { 'interwiki': self.interwiki(d),
-        'pagename': self.title(d),
+        'document_name': self.document_name(d),
+        'document_breadcrumb_list': self.document_breadcrumb_list(d),
         'lastupdate': self.lastupdate(d)}
         return html
 
@@ -479,14 +492,14 @@ class Theme(ThemeBase):
         return html
 
     def lastupdate(self, d):
-        """ Return html for last update in location area, if conditions are met. """
+        """ Return html for last update in document info area, if conditions are met. """
         _ = self.request.getText
         page = d['page']
         html = u''
         if self.shouldShowPageinfo(page):
             info = page.lastEditInfo()
             if info:
-                html = u'<span class="lastupdate">%s %s</span>' % (_('Last updated at'), info['time'])
+                html = u'%s %s' % (_('Last updated at'), info['time'])
         return html
 
     def searchform(self, d):
