@@ -380,6 +380,9 @@ class Theme(ThemeBase):
         return html
 
     def document_title_controls(self, d):
+        if not self.is_normal_document(d):
+            return self.non_document_title(d)
+
         html = u'''
 <nav id="document" class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -414,6 +417,11 @@ class Theme(ThemeBase):
                 'page_menu': self.page_menu(d),
                 'commentbutton': self.commentbutton(), }
 
+    def non_document_title(self, d):
+        """ If this is no document page but e.g. a search page
+        we have to use this function """
+        return '<span id="document_name">%s</span>' % wikiutil.escape(d['title_text'])
+
 
     def is_normal_document(self, d):
         return d['title_text'] == d['page'].split_title()
@@ -427,18 +435,14 @@ class Theme(ThemeBase):
         """
         _ = self.request.getText
         content = []
-        if self.is_normal_document(d):
-            pagepath = ''
-            segments = d['page_name'].split('/') # was: title_text
-            for s in segments[:-1]:
-                pagepath += s
-                content.append('<li class="breadcrumb-item">%s</li>' % Page(self.request, pagepath).link_to(self.request, s))
-                pagepath += '/'
-            active_document_link = self.backlink(d['page'], d['page_name'], segments[-1])
-            content.append(('<li class="breadcrumb-item  active">%s</li>') % active_document_link)
-        else:
-            content.append('<li class="btn btn-primary">%s</li>' % wikiutil.escape(d['title_text']))
-
+        pagepath = ''
+        segments = d['page_name'].split('/') # was: title_text
+        for s in segments[:-1]:
+            pagepath += s
+            content.append('<li class="breadcrumb-item">%s</li>' % Page(self.request, pagepath).link_to(self.request, s))
+            pagepath += '/'
+        active_document_link = self.backlink(d['page'], d['page_name'], segments[-1])
+        content.append(('<li class="breadcrumb-item  active">%s</li>') % active_document_link)
         return "".join(content)
 
     def document_name(self, d):
