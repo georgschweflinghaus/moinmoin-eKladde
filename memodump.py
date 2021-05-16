@@ -382,24 +382,26 @@ class Theme(ThemeBase):
     def page_title_controls(self, d):
         html = u'''
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-      <ul class="navbar-nav">
+    <div class="container-fluid">
+        <ul class="navbar-nav navbar-expand-lg me-auto">
+            <li class="nav-item me-auto">
+                <ul>
+                %(location)s
+                </ul>
+            </li>
+        </ul>
 
-        <li class="nav-item">
-            %(location)s
-        </li>
-
-        <li class="nav-item btn btn-default">
+        <span class="nav-item d-flex">
           %(editbutton)s
-        </li>
+        </span>
 
-        <li class="nav-item dropdown">
+        <span class="nav-item dropdown">
           %(page_menu)s
-        </li>
+        </span>
 
-        <li class="nav-item">
+        <span class="nav-item">
           %(commentbutton)s
-        </li>
+        </span>
 
       </ul>
   </div>
