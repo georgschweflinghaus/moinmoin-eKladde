@@ -61,10 +61,8 @@ nav#document ul {
 }
 
 #documentinfo {
-    font-size: large;
     display: inline-block;
     list-style: none;
-    font-weight: bold;
     padding: 0;
     margin: 0;
 }
@@ -80,6 +78,7 @@ nav#document ul {
 }
 #document_name {
   font-size: xx-large;
+  font-weight: bold;
 }
 .lastupdate {
     display: block;
