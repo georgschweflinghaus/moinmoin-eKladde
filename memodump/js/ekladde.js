@@ -4,7 +4,6 @@
  */
 
 if (typeof jQuery === 'undefined') { throw new Error('jQuery is required for toggle.js!') }
-if ($.fn.emulateTransitionEnd === undefined) { throw new Error('Bootstrap is required for toggle.js!') }
 
 +function ($) {
   /* Re-style the standard MoinMoin Page Edit Save button */

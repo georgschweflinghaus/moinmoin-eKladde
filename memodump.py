@@ -281,10 +281,10 @@ class Theme(ThemeBase):
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="%(prefix)s/%(theme)s/js/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="%(prefix)s/%(theme)s/js/bootstrap.min.js"></script>
+  <script src="%(prefix)s/%(theme)s/js/bootstrap.bundle.js"></script>
   <!-- toggle.js by dossist -->
   <script src="%(prefix)s/%(theme)s/js/toggle.js"></script>
-  <script src="%(prefix)s/%(theme)s/js/memodump.js"></script>
+  <script src="%(prefix)s/%(theme)s/js/ekladde.js"></script>
   <!-- Custom script -->
 %(script)s
   <!-- End of JavaScript -->
