@@ -1254,17 +1254,20 @@ class Theme(ThemeBase):
             return u''
 
         msg_switch = {
-            'hint': {'alert_type': 'alert-success', 'source': 'msg', 'icon': '<img src="img/alert.png">'},
-            'info': {'alert_type': 'alert-info', 'source': 'msg', 'icon': None},
-            'warning': {'alert_type': 'alert-warning', 'source': 'msg', 'icon': None},
-            'error': {'alert_type': 'alert-danger', 'source': 'msg', 'icon': None},
-            'dialog': {'alert_type': 'alert-info', 'source': 'msg.render()', 'icon': None}
+            'hint': {'alert_type': 'alert-success', 'source': 'msg', 'icon': self.img_url('bi/lightbulb.svg')},
+            'info': {'alert_type': 'alert-info', 'source': 'msg', 'icon': self.img_url('bi/info-circle.svg')},
+            'warning': {'alert_type': 'alert-warning', 'source': 'msg', 'icon': self.img_url('bi/exclamation-circle.svg')},
+            'error': {'alert_type': 'alert-danger', 'source': 'msg', 'icon': self.img_url('bi/exclamation-triangle.svg')},
+            'dialog': {'alert_type': 'alert-info', 'source': 'msg.render()', 'icon': self.img_url('bi/hand-index-thumb.svg')}
         }
 
         result = []
         template = u'''
-        <div class="alert %(alert_type)s alert-dismissible fade show" role="alert">
+        <div class="alert %(alert_type)s alert-dismissible d-flex align-items-center fade show" role="alert">
+            <img class="bi flex-shrink-0 me-5" src="%(icon)s" width="24px" height="24px">
+            <div>
             %(msg)s
+            </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 '''
