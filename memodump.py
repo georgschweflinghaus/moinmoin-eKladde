@@ -1253,11 +1253,12 @@ class Theme(ThemeBase):
         if not msgs:
             return u''
 
-        msg_conv = {
-            'hint': 'alert-success',
-            'info': 'alert-info',
-            'warning': 'alert-warning',
-            'error': 'alert-danger',
+        msg_switch = {
+            'hint': {'alert_type': 'alert-success', 'source': 'msg', 'icon': '<img src="img/alert.png">'},
+            'info': {'alert_type': 'alert-info', 'source': 'msg', 'icon': None},
+            'warning': {'alert_type': 'alert-warning', 'source': 'msg', 'icon': None},
+            'error': {'alert_type': 'alert-danger', 'source': 'msg', 'icon': None},
+            'dialog': {'alert_type': 'alert-info', 'source': 'msg.render()', 'icon': None}
         }
 
         result = []
@@ -1268,16 +1269,13 @@ class Theme(ThemeBase):
         </div>
 '''
         for msg, msg_class in msgs:
-            try:
-                result.append(template % {'alert_type': "", 'msg': msg.render()})
-            except AttributeError:
-                if msg and msg_class:
-                    if msg_class in msg_conv:
-                        result.append(template % {'alert_type': msg_conv[msg_class], 'msg': msg})
-                    else:
-                        result.append(template % {'alert_type': msg_conv['info'], 'msg': msg})
-                elif msg:
-                    result.append(template % {'alert_type': msg_conv['info'], 'msg': msg})
+            if msg_class in msg_switch:
+                dict = msg_switch[msg_class]
+                if dict['source'] == 'msg':
+                    dict['msg'] = msg
+                elif dict['source'] == 'msg.render()':
+                    dict['msg'] = msg.render()
+                result.append(template % dict)
 
         if result:
             return u'\n'.join(result)
