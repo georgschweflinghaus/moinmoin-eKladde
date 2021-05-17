@@ -177,7 +177,7 @@ class Theme(ThemeBase):
 
 <!-- Left menu and main content in a row -->
 <div class="container-fluid">
-  <div class="row">
+  <div class="row min-vh-100">
     <div id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 
 <!-- SideBar contents -->
