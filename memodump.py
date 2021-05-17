@@ -1268,13 +1268,16 @@ class Theme(ThemeBase):
         </div>
 '''
         for msg, msg_class in msgs:
-            if msg and msg_class:
-                if msg_class in msg_conv:
-                    result.append(template % {'alert_type': msg_conv[msg_class], 'msg': msg})
-                else:
+            try:
+                result.append(template % {'alert_type': "", 'msg': msg.render()})
+            except AttributeError:
+                if msg and msg_class:
+                    if msg_class in msg_conv:
+                        result.append(template % {'alert_type': msg_conv[msg_class], 'msg': msg})
+                    else:
+                        result.append(template % {'alert_type': msg_conv['info'], 'msg': msg})
+                elif msg:
                     result.append(template % {'alert_type': msg_conv['info'], 'msg': msg})
-            elif msg:
-                result.append(template % {'alert_type': msg_conv['info'], 'msg': msg})
 
         if result:
             return u'\n'.join(result)
