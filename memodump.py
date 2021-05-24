@@ -1,8 +1,9 @@
 # -*- coding: iso-8859-1 -*-
 
 """
-    MoinMoin - memodump theme
+    MoinMoin - eKladde theme
 
+    Based on MemoDump theme which in turn is
     Based on modernized theme in MoinMoin
 
     Config variables:
@@ -24,6 +25,7 @@
             https://github.com/dossist/moinmoin-memodump/wiki/Tips
 
     @copyright: 2014 dossist.
+    @copyright: 2021 gejosch
     @license: GNU GPL, see http://www.gnu.org/licenses/gpl for details.
 """
 
@@ -125,265 +127,8 @@ class Theme(ThemeBase):
         ('all',         'memoslide'),
     )
 
-    def header(self, d, **kw):
-        """ Assemble wiki header
-        header1: supported.
-        header2: supported.
 
-        @param d: parameter dictionary
-        @rtype: unicode
-        @return: page header html
-        """
-
-        html = u"""
-<!-- ekladde.py header() START -->
-<nav id="banner" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand col-md-3 col-lg-2" href="#">
-        <!-- Sitename -->
-        %(sitename)s
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-
-      <!-- Add form -->
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-        %(new_page)s
-        </li>
-      </ul>
-
-      <!-- Search form -->
-      %(search)s
-
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-            <!-- Menu -->
-            %(menu_global)s
-        </li> <!-- global menu .navbar-nav -->
-
-        <!-- menu user logout dropdown -->
-        <li class="nav-item dropdown">
-            %(menu_user)s
-        </li><!-- menu user .navbar-nav -->
-
-      </ul>
-    </div> <!-- Navbar top right side -->
-  </div> <!--div container fluid -->
-</nav>
-
-<!-- Left menu and main content in a row -->
-<div class="container-fluid">
-  <div class="row min-vh-100">
-    <div id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-
-<!-- SideBar contents -->
-%(sidebar)s
-<!-- End of SideBar contents -->
-%(navilinks)s
-%(trail)s
-
-
-    </div><!-- sidebar end -->
-%(custom_pre)s
-     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="doc_border w-100">
-
-%(custom_post)s
-%(msg)s
-%(document_title_controls)s
-<!-- ekladde.py header() STOP -->
-<!-- Page contents -->
-""" % {'sitename': self.logo(),
-       'document_title_controls': self.document_title_controls(d),
-       'menu_global': self.menu_global(d),
-       'new_page': self.new_page(d),
-       'menu_user': self.menu_user(d),
-       'search': self.searchform(d),
-       'sidebar': self.sidebar(d),
-       'trail': self.trail(d),
-       #'quicklinks': self.quicklinks(d),
-       'navilinks': self.navibar(d),
-       'msg': self.msg(d),
-       'custom_pre': self.emit_custom_html(self.cfg.page_header1), # custom html just below the navbar, not recommended!
-       'custom_post': self.emit_custom_html(self.cfg.page_header2), # custom html just before the contents, not recommended!
-      }
-
-        return html
-
-    def new_page(self, d, **keywords):
-        html='''
-            <form class="me-auto" method="POST" action="/%(page)s">
-                <div class="input-group">
-                        <input type="hidden" name="action" value="newpage">
-                        <input type="hidden" name="parent" value="%(page)s">
-                        <input type="hidden" name="template" value="">
-                        <input type="hidden" name="nametemplate" value="%(placeholder)s">
-                        <input type="text" name="pagename" placeholder="Sub page" id="add-input" class="form-control" aria-label="Text input to add a sub page.">
-                        <button id="add-button" class="btn btn-primary" type="submit">Add</button>
-                </div>
-            </form>
-''' % {'page': d['page'].split_title(), 'placeholder': '%s'}
-        return html
-
-    def editorheader(self, d, **kw):
-        """
-        header() for edit mode. Just set edit mode flag and call self.header().
-        """
-        d['edit_mode'] = 1
-        return self.header(d, **kw)
-
-    def footer(self, d, **keywords):
-        """ Assemble wiki footer
-        footer1: supported.
-        footer2: supported.
-
-        @param d: parameter dictionary
-        @keyword ...:...
-        @rtype: unicode
-        @return: page footer html
-        """
-        page = d['page']
-
-        html = u"""
-<!-- End of page contents -->
-        <div class="clearfix"></div>
-
-      </div> <!-- /#contentbox -->
-      <!-- End of content body -->
-    </div> <!-- /.container, #pagebox -->
-  </div> <!-- /#outbox -->
-
-  <!-- pageinfo -->
-  <div id="pageinfo-container">
-    <div class="container">
-      %(pageinfo)s
-    </div>
-  </div>
-  <!-- End of pageinfo -->
-
-%(custom_pre)s
-
-  <!-- Footer -->
-  <div id="footer">
-    <div class="container text-right text-muted">
-      %(credits)s
-      %(version)s
-%(custom_post)s
-    </div> <!-- /.container -->
-  </div> <!-- /#footer -->
-  <!-- End of footer -->
-
-  <!-- Bootstrap core JavaScript -->
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="%(prefix)s/%(theme)s/js/jquery.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="%(prefix)s/%(theme)s/js/bootstrap.bundle.js"></script>
-  <!-- toggle.js by dossist -->
-  <script src="%(prefix)s/%(theme)s/js/toggle.js"></script>
-  <script src="%(prefix)s/%(theme)s/js/ekladde.js"></script>
-  <!-- Custom script -->
-%(script)s
-  <!-- End of JavaScript -->
-""" % {'pageinfo': self.pageinfo(page),
-       'custom_pre': self.emit_custom_html(self.cfg.page_footer1), # Pre footer custom html (not recommended!)
-       'credits': self.credits(d),
-       'version': self.showversion(d, **keywords),
-       'custom_post': self.emit_custom_html(self.cfg.page_footer2), # In-footer custom html (not recommended!)
-       'prefix': self.cfg.url_prefix_static,
-       'theme': self.name,
-       'script': self.script(),
-      }
-
-        return html
-
-    def script(self):
-        """
-        Append in-html script at the bottom of the page body.
-        """
-
-        return ur"""
-  <script>
-    +function ($) {
-      // Toggle minified navbar under mobile landscape view
-      $('.navbar-collapse').on('show.bs.collapse', function () {
-        $('.navbar-mobile-toggle').togglejs('show');
-      });
-      $('.navbar-collapse').on('hidden.bs.collapse', function () {
-        $('.navbar-mobile-toggle').togglejs('hide');
-      });
-
-      //Scroll position fix for hash anchors
-      var mdAnchorFix = {
-        escapeRe: /[ !"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g,
-        escape: function (str) {
-          return str.replace(mdAnchorFix.escapeRe, '\\$&');
-        },
-        rgbRe: /^rgba\(([ \t]*\d{1,3},){3}([ \t]*\d{1,3})\)$/i,
-        isTransparent: function (rgbstr) {
-          if (rgbstr === 'transparent') {
-            return true;
-          }
-          rgbMatch = rgbstr.match(mdAnchorFix.rgbRe);
-          if (rgbMatch) {
-            return (Number(rgbMatch[2]) ? false : true);
-          }
-          return false;
-        },
-        navbarHeight: function () {
-          var height = 0;
-          var $navbar = $('.navbar');
-          if ( !mdAnchorFix.isTransparent($navbar.css('background-color'))
-               && ($navbar.css('display') !== 'none')
-               && ($navbar.css('visibility') !== 'hidden') ) {
-            height = $navbar.height();
-          }
-          return height;
-        },
-        jump: function () {
-          origin = $('#' + mdAnchorFix.escape(location.hash.substr(1))).offset().top;
-          offset = mdAnchorFix.navbarHeight() + 15;
-          setTimeout(function () { window.scrollTo(0, origin - offset); }, 1);
-        },
-        clickWrapper: function () {
-          if ( ($(this).attr('href') === location.hash)
-               || !('onhashchange' in window.document.body) ) {
-            setTimeout(function () { $(window).trigger("hashchange"); }, 1);
-          }
-        },
-      };
-      $('#pagebox a[href^="#"]:not([href="#"])').on("click", mdAnchorFix.clickWrapper);
-      $(window).on("hashchange", mdAnchorFix.jump);
-      if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
-    }(jQuery);
-  </script>
-"""
-
-    def logo(self):
-        """ Assemble logo with link to front page
-        Using <a> tag only instead of wrapping with div
-
-        The logo may contain an image and or text or any html markup.
-        Just note that everything is enclosed in <a> tag.
-
-        @rtype: unicode
-        @return: logo html
-        """
-        html = u''
-        if self.cfg.logo_string:
-            # page = wikiutil.getFrontPage(self.request)
-            # html = page.link_to_raw(self.request, self.cfg.logo_string, css_class="navbar-brand")
-            html = u'''%s''' % self.cfg.logo_string
-        return html
-
-    def document_title_controls(self, d):
-        if not self.is_normal_document(d):
-            return self.non_document_title(d)
-
-        html = u'''
+    html_logo = u'''
 <nav id="document" class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <ul class="navbar-nav navbar-expand-lg me-auto">
@@ -411,7 +156,280 @@ class Theme(ThemeBase):
 </nav>
 '''
 
-        return html % {
+    html_header = u'''
+<!-- ekladde.py header() START -->
+<nav id="banner" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand col-md-3 col-lg-2" href="#">
+            <!-- Sitename -->
+            %(sitename)s
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+
+          <!-- Add form -->
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+            %(new_page)s
+            </li>
+          </ul>
+
+          <!-- Search form -->
+          %(search)s
+
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <!-- Menu -->
+                %(menu_global)s
+            </li> <!-- global menu .navbar-nav -->
+
+            <!-- menu user logout dropdown -->
+            <li class="nav-item dropdown">
+                %(menu_user)s
+            </li><!-- menu user .navbar-nav -->
+
+          </ul>
+        </div> <!-- id= navbarCollapse -->
+    </div> <!--div container fluid -->
+</nav>
+
+<!-- Main container and row -->
+<div class="container-fluid">
+    <div class="row min-vh-100">
+        <!-- LEFT SIDEBAR -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <!-- SideBar contents -->
+                %(sidebar)s
+                <!-- Navilinks -->
+                %(navilinks)s
+                <!-- Trails -->
+                %(trail)s
+            </div> <!-- position-sticky -->
+        </nav> <!-- sidebar end -->
+        %(custom_pre)s
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="doc_border w-100">
+                %(custom_post)s
+                %(msg)s
+                %(document_title_controls)s
+<!-- ekladde.py header() STOP -->
+<!-- Page contents -->
+'''
+
+    html_new_page = u'''
+        <form class="me-auto" method="POST" action="/%(page)s">
+            <div class="input-group">
+                    <input type="hidden" name="action" value="newpage">
+                    <input type="hidden" name="parent" value="%(page)s">
+                    <input type="hidden" name="template" value="">
+                    <input type="hidden" name="nametemplate" value="%(placeholder)s">
+                    <input type="text" name="pagename" placeholder="Sub page" id="add-input" class="form-control" aria-label="Text input to add a sub page.">
+                    <button id="add-button" class="btn btn-primary" type="submit">Add</button>
+            </div>
+        </form>
+'''
+
+
+    html_footer = u"""
+<!-- End of page contents -->
+
+      </div> <!-- /doc_border -->
+    </main>
+  </div> <!-- /row -->
+</div> <!-- /container-fluid -->
+
+  <!-- pageinfo -->
+  <div id="pageinfo-container">
+    <div class="container">
+      %(pageinfo)s
+    </div>
+  </div>
+  <!-- End of pageinfo -->
+
+%(custom_pre)s
+
+  <!-- Footer -->
+  <div id="footer">
+    <div class="container text-right text-muted">
+      %(credits)s
+      %(version)s
+%(custom_post)s
+    </div>
+  </div> <!-- /#footer -->
+  <!-- End of footer -->
+
+  <!-- Bootstrap core JavaScript -->
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="%(prefix)s/%(theme)s/js/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="%(prefix)s/%(theme)s/js/bootstrap.bundle.js"></script>
+  <!-- toggle.js by dossist -->
+  <script src="%(prefix)s/%(theme)s/js/toggle.js"></script>
+  <script src="%(prefix)s/%(theme)s/js/ekladde.js"></script>
+  <!-- Custom script -->
+%(script)s
+  <!-- End of JavaScript -->
+"""
+
+
+    html_script = ur"""
+<script>
++function ($) {
+// Toggle minified navbar under mobile landscape view
+$('.navbar-collapse').on('show.bs.collapse', function () {
+$('.navbar-mobile-toggle').togglejs('show');
+});
+$('.navbar-collapse').on('hidden.bs.collapse', function () {
+$('.navbar-mobile-toggle').togglejs('hide');
+});
+
+//Scroll position fix for hash anchors
+var mdAnchorFix = {
+escapeRe: /[ !"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g,
+escape: function (str) {
+  return str.replace(mdAnchorFix.escapeRe, '\\$&');
+},
+rgbRe: /^rgba\(([ \t]*\d{1,3},){3}([ \t]*\d{1,3})\)$/i,
+isTransparent: function (rgbstr) {
+  if (rgbstr === 'transparent') {
+    return true;
+  }
+  rgbMatch = rgbstr.match(mdAnchorFix.rgbRe);
+  if (rgbMatch) {
+    return (Number(rgbMatch[2]) ? false : true);
+  }
+  return false;
+},
+navbarHeight: function () {
+  var height = 0;
+  var $navbar = $('.navbar');
+  if ( !mdAnchorFix.isTransparent($navbar.css('background-color'))
+       && ($navbar.css('display') !== 'none')
+       && ($navbar.css('visibility') !== 'hidden') ) {
+    height = $navbar.height();
+  }
+  return height;
+},
+jump: function () {
+  origin = $('#' + mdAnchorFix.escape(location.hash.substr(1))).offset().top;
+  offset = mdAnchorFix.navbarHeight() + 15;
+  setTimeout(function () { window.scrollTo(0, origin - offset); }, 1);
+},
+clickWrapper: function () {
+  if ( ($(this).attr('href') === location.hash)
+       || !('onhashchange' in window.document.body) ) {
+    setTimeout(function () { $(window).trigger("hashchange"); }, 1);
+  }
+},
+};
+$('#pagebox a[href^="#"]:not([href="#"])').on("click", mdAnchorFix.clickWrapper);
+$(window).on("hashchange", mdAnchorFix.jump);
+if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
+}(jQuery);
+</script>
+"""
+
+
+    def header(self, d, **kw):
+        """ Assemble wiki header
+        header1: supported.
+        header2: supported.
+
+        @param d: parameter dictionary
+        @rtype: unicode
+        @return: page header html
+        """
+
+        html = self.html_header % {'sitename': self.logo(),
+       'document_title_controls': self.document_title_controls(d),
+       'menu_global': self.menu_global(d),
+       'new_page': self.new_page(d),
+       'menu_user': self.menu_user(d),
+       'search': self.searchform(d),
+       'sidebar': self.sidebar(d),
+       'trail': self.trail(d),
+       #'quicklinks': self.quicklinks(d),
+       'navilinks': self.navibar(d),
+       'msg': self.msg(d),
+       'custom_pre': self.emit_custom_html(self.cfg.page_header1), # custom html just below the navbar, not recommended!
+       'custom_post': self.emit_custom_html(self.cfg.page_header2), # custom html just before the contents, not recommended!
+      }
+
+        return html
+
+    def new_page(self, d, **keywords):
+        html = self.html_new_page % {'page': d['page'].split_title(), 'placeholder': '%s'}
+        return html
+
+    def editorheader(self, d, **kw):
+        """
+        header() for edit mode. Just set edit mode flag and call self.header().
+        """
+        d['edit_mode'] = 1
+        return self.header(d, **kw)
+
+    def footer(self, d, **keywords):
+        """ Assemble wiki footer
+        footer1: supported.
+        footer2: supported.
+
+        @param d: parameter dictionary
+        @keyword ...:...
+        @rtype: unicode
+        @return: page footer html
+        """
+
+        buffer = StringIO.StringIO()
+        self.request.redirect(buffer)
+        self.request.redirect()
+
+        page = d['page']
+
+        html = self.html_footer % {'pageinfo': self.pageinfo(page),
+       'custom_pre': self.emit_custom_html(self.cfg.page_footer1), # Pre footer custom html (not recommended!)
+       'credits': self.credits(d),
+       'version': self.showversion(d, **keywords),
+       'custom_post': self.emit_custom_html(self.cfg.page_footer2), # In-footer custom html (not recommended!)
+       'prefix': self.cfg.url_prefix_static,
+       'theme': self.name,
+       'script': self.script(),
+      }
+
+        return html
+
+    def script(self):
+        """
+        Append in-html script at the bottom of the page body.
+        """
+        return self.html_script
+
+    def logo(self):
+        """ Assemble logo with link to front page
+        Using <a> tag only instead of wrapping with div
+
+        The logo may contain an image and or text or any html markup.
+        Just note that everything is enclosed in <a> tag.
+
+        @rtype: unicode
+        @return: logo html
+        """
+        html = u''
+        if self.cfg.logo_string:
+            # page = wikiutil.getFrontPage(self.request)
+            # html = page.link_to_raw(self.request, self.cfg.logo_string, css_class="navbar-brand")
+            html = u'''%s''' % self.cfg.logo_string
+        return html
+
+    def document_title_controls(self, d):
+        if not self.is_normal_document(d):
+            return self.non_document_title(d)
+
+        return self.html_logo % {
                 'document_info': self.document_info(d),
                 'editbutton': self.editbutton(d),
                 'page_menu': self.page_menu(d),
@@ -1048,6 +1066,7 @@ class Theme(ThemeBase):
 
         return (action, text)
 
+
     def sidebar(self, d, **keywords):
         """ Display page called SideBar as an additional element on every page
         content_id has been changed from the original
@@ -1069,7 +1088,7 @@ class Theme(ThemeBase):
             page.send_page(content_only=1, content_id="sidebar-content")
         finally:
             self.request.redirect()
-        return u'<div class="sidebar clearfix">%s</div>' % buffer.getvalue()
+        return u'<div id="sidebar-content"  clearfix">%s</div>' % buffer.getvalue()
 
     def trail(self, d):
         """ Assemble page trail
@@ -1306,9 +1325,9 @@ class Theme(ThemeBase):
         html = re.sub(ur'^<!DOCTYPE HTML .*?>\n', ur'<!DOCTYPE html>\n', buffer.getvalue())
         self.request.write(html)
 
-    def guiEditorScript(self, d):
-        """ Disable default skin javascript to prevent gui edit button from automatically appearing """
-        return u''
+    # def guiEditorScript(self, d):
+    #     """ Disable default skin javascript to prevent gui edit button from automatically appearing """
+    #     return u''
 
     def _stylesheet_link(self, theme, media, href, title=None):
         """ Removed charset attribute to satisfy html5 requirements """
