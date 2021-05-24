@@ -198,7 +198,7 @@ class Theme(ThemeBase):
 
 <!-- Main container and row -->
 <div class="container-fluid">
-    <div class="row min-vh-100">
+    <div id="content-row" class="row">
         <!-- LEFT SIDEBAR -->
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3">
@@ -243,24 +243,16 @@ class Theme(ThemeBase):
   </div> <!-- /row -->
 </div> <!-- /container-fluid -->
 
-  <!-- pageinfo -->
-  <div id="pageinfo-container">
-    <div class="container">
-      %(pageinfo)s
-    </div>
-  </div>
-  <!-- End of pageinfo -->
-
-%(custom_pre)s
+  %(custom_pre)s
 
   <!-- Footer -->
-  <div id="footer">
-    <div class="container text-right text-muted">
+  <div id="footer" class="row">
+    <div class="offset-md-3 col-md-9 offset-lg-2 col-lg-10 text-end text-muted">
       %(credits)s
       %(version)s
-%(custom_post)s
+      %(custom_post)s
     </div>
-  </div> <!-- /#footer -->
+  </div>
   <!-- End of footer -->
 
   <!-- Bootstrap core JavaScript -->
