@@ -1259,17 +1259,16 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         @rtype: unicode
         @return: msg display html
         """
-        _ = self.request.getText
         msgs = d['msg']
         if not msgs:
             return u''
 
         msg_switch = {
-            'hint': {'alert_type': 'alert-success', 'source': 'msg', 'icon': self.img_url('bi/lightbulb.svg')},
-            'info': {'alert_type': 'alert-info', 'source': 'msg', 'icon': self.img_url('bi/info-circle.svg')},
-            'warning': {'alert_type': 'alert-warning', 'source': 'msg', 'icon': self.img_url('bi/exclamation-circle.svg')},
-            'error': {'alert_type': 'alert-danger', 'source': 'msg', 'icon': self.img_url('bi/exclamation-triangle.svg')},
-            'dialog': {'alert_type': 'alert-info', 'source': 'msg.render()', 'icon': self.img_url('bi/hand-index-thumb.svg')}
+            'hint': {'alert_type': 'alert-success', 'icon': self.img_url('bi/lightbulb.svg')},
+            'info': {'alert_type': 'alert-info',  'icon': self.img_url('bi/info-circle.svg')},
+            'warning': {'alert_type': 'alert-warning', 'icon': self.img_url('bi/exclamation-circle.svg')},
+            'error': {'alert_type': 'alert-danger', 'icon': self.img_url('bi/exclamation-triangle.svg')},
+            'dialog': {'alert_type': 'alert-info', 'icon': self.img_url('bi/hand-index-thumb.svg')}
         }
 
         result = []
@@ -1284,17 +1283,34 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
 '''
         for msg, msg_class in msgs:
             if msg_class in msg_switch:
-                dict = msg_switch[msg_class]
-                if dict['source'] == 'msg':
-                    dict['msg'] = msg
-                elif dict['source'] == 'msg.render()':
-                    dict['msg'] = msg.render()
-                result.append(template % dict)
+                msg_text = None
+                msg_attributes = msg_switch[msg_class]
+
+                if hasattr(msg, 'render'):
+                    msg_text = msg.render()
+                else:
+                    msg_text = msg
+
+                if msg_text:
+                    msg_attributes['msg'] = msg_text
+                    if self.is_msg_wanted(msg_text):
+                        result.append(template % msg_attributes)
 
         if result:
             return u'\n'.join(result)
         else:
             return u''
+
+    def is_msg_wanted(self, msg_text):
+        _ = self.request.getText
+        if 'Other users will be <em>warned</em> until' in msg_text:
+            return False
+        if msg_text == _('Edit was cancelled.'):
+            return False
+        if msg_text == _('Thank you for your changes. Your attention to detail is appreciated.'):
+            return False
+        return True
+
 
     def send_title(self, text, **keywords):
         """ Capture original send_title() and rewrite DOCTYPE for html5 """
