@@ -109,21 +109,22 @@ class Theme(ThemeBase):
         # media         basename
         ('all',         'bootstrap.min'),
         ('all',         '../font/bootstrap-icons'),
-        ('all',         'ekladde'),
         ('all',         'moinizer'),
+        ('all',         'ekladde'),
+
     )
     stylesheets_print = (
         ('all',         'bootstrap.min'),
         ('all',         '../font/bootstrap-icons'),
-        ('all',         'ekladde'),
         ('all',         'moinizer'),
+        ('all',         'ekladde'),
         ('all',         'memoprint'),
     )
     stylesheets_projection = (
         ('all',         'bootstrap.min'),
         ('all',         '../font/bootstrap-icons'),
-        ('all',         'ekladde'),
         ('all',         'moinizer'),
+        ('all',         'ekladde'),
         ('all',         'memoslide'),
     )
 
@@ -156,7 +157,7 @@ class Theme(ThemeBase):
 </nav>
 '''
 
-    html_header = u'''
+    html_nav_bar = u'''
 <!-- ekladde.py header() START -->
 <nav id="banner" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
@@ -199,27 +200,44 @@ class Theme(ThemeBase):
 <!-- Main container and row -->
 <div class="container-fluid">
     <div id="content-row" class="row">
-        <!-- LEFT SIDEBAR -->
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3">
-                <!-- SideBar contents -->
-                %(sidebar)s
-                <!-- Navilinks -->
-                %(navilinks)s
-                <!-- Trails -->
-                %(trail)s
-            </div> <!-- position-sticky -->
-        </nav> <!-- sidebar end -->
-        %(custom_pre)s
-
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="doc_border w-100">
-                %(custom_post)s
-                %(msg)s
-                %(document_title_controls)s
-<!-- ekladde.py header() STOP -->
-<!-- Page contents -->
 '''
+
+    html_with_sidebar = u'''
+            <!-- LEFT SIDEBAR -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <!-- SideBar contents -->
+                    %(sidebar)s
+                    <!-- Navilinks -->
+                    %(navilinks)s
+                    <!-- Trails -->
+                    %(trail)s
+                </div> <!-- position-sticky -->
+            </nav> <!-- sidebar end -->
+            %(custom_pre)s
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="doc_border w-100">
+                    %(custom_post)s
+                    %(msg)s
+                    %(document_title_controls)s
+    <!-- ekladde.py header() STOP -->
+    <!-- Page contents -->
+'''
+
+    html_no_sidebar = u'''
+            %(custom_pre)s
+            <main class="ms-sm-auto px-md-4">
+                <div class="doc_border w-100">
+                    %(custom_post)s
+                    %(msg)s
+                    %(document_title_controls)s
+    <!-- ekladde.py header() STOP -->
+    <!-- Page contents -->
+'''
+
+    html_header = html_nav_bar + html_with_sidebar
+    html_header_no_sidebar = html_nav_bar + html_no_sidebar
 
     html_new_page = u'''
         <form class="me-auto" method="POST" action="/%(page)s">
@@ -336,8 +354,11 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         @rtype: unicode
         @return: page header html
         """
-
-        html = self.html_header % {'sitename': self.logo(),
+        if self.show_left_sidebar(d):
+            template = self.html_header
+        else:
+            template = self.html_header_no_sidebar
+        html = template % {'sitename': self.logo(),
        'document_title_controls': self.document_title_controls(d),
        'menu_global': self.menu_global(d),
        'new_page': self.new_page(d),
@@ -345,13 +366,12 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
        'search': self.searchform(d),
        'sidebar': self.sidebar(d),
        'trail': self.trail(d),
-       #'quicklinks': self.quicklinks(d),
+       'quicklinks': self.quicklinks(d),
        'navilinks': self.navibar(d),
        'msg': self.msg(d),
        'custom_pre': self.emit_custom_html(self.cfg.page_header1), # custom html just below the navbar, not recommended!
        'custom_post': self.emit_custom_html(self.cfg.page_header2), # custom html just before the contents, not recommended!
       }
-
         return html
 
     def new_page(self, d, **keywords):
@@ -416,6 +436,15 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
             # html = page.link_to_raw(self.request, self.cfg.logo_string, css_class="navbar-brand")
             html = u'''%s''' % self.cfg.logo_string
         return html
+
+
+    def show_left_sidebar(self, d):
+        # return true if this is a normal document
+        # e.g. the edit page is not a normal document
+        if self.is_normal_document(d):
+            return True
+        else:
+            return False
 
     def document_title_controls(self, d):
         if not self.is_normal_document(d):
