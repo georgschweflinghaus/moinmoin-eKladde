@@ -71,37 +71,37 @@ class Theme(ThemeBase):
         # smileys (this is CONTENT, but good looking smileys depend on looking
         # adapted to the theme background color and theme style in general)
         #vvv    ==      vvv  this must be the same for GUI editor converter
-        'X-(':        ("X-(",                    'angry.png',         16, 16),
-        ':D':         (":D",                     'biggrin.png',       16, 16),
-        '<:(':        ("<:(",                    'frown.png',         16, 16),
+        'X-(':        ("X-(",                    'bi/emoji-angry.svg',         16, 16),
+        ':D':         (":D",                     'bi/emoji-laughing.svg',       16, 16),
+        '<:(':        ("<:(",                    'bi/emoji-frown.svg',         16, 16),
         ':o':         (":o",                     'redface.png',       16, 16),
-        ':(':         (":(",                     'sad.png',           16, 16),
-        ':)':         (":)",                     'smile.png',         16, 16),
-        'B)':         ("B)",                     'smile2.png',        16, 16),
+        ':(':         (":(",                     'bi/emoji-sad.svg',           16, 16),
+        ':)':         (":)",                     'bi/emoji-smile.svg',         16, 16),
+        'B)':         ("B)",                     'bi/emoji-sunglasses.svg',        16, 16),
         ':))':        (":))",                    'smile3.png',        16, 16),
-        ';)':         (";)",                     'smile4.png',        16, 16),
+        ';)':         (";)",                     'bi/emoji-wink.svg',        16, 16),
         '/!\\':       ("/!\\",                   'bi/exclamation-triangle.svg',         16, 16),
         '<!>':        ("<!>",                    'bi/exclamation-circle.svg',     16, 16),
         '(!)':        ("(!)",                    'bi/lightbulb.svg',          16, 16),
         ':-?':        (":-?",                    'tongue.png',        16, 16),
         ':\\':        (":\\",                    'ohwell.png',        16, 16),
         '>:>':        (">:>",                    'devil.png',         16, 16),
-        '|)':         ("|)",                     'tired.png',         16, 16),
-        ':-(':        (":-(",                    'sad.png',           16, 16),
-        ':-)':        (":-)",                    'smile.png',         16, 16),
-        'B-)':        ("B-)",                    'smile2.png',        16, 16),
+        '|)':         ("|)",                     'bi/emoji-expressionless.svg',         16, 16),
+        ':-(':        (":-(",                    'bi/emoji-sad.svg',           16, 16),
+        ':-)':        (":-)",                    'bi/emoji-smile.svg',         16, 16),
+        'B-)':        ("B-)",                    'bi/emoji-sunglasses.svg',        16, 16),
         ':-))':       (":-))",                   'smile3.png',        16, 16),
-        ';-)':        (";-)",                    'smile4.png',        16, 16),
-        '|-)':        ("|-)",                    'tired.png',         16, 16),
+        ';-)':        (";-)",                    'bi/emoji-wink.svg',        16, 16),
+        '|-)':        ("|-)",                    'bi/emoji-expressionless.svg',         16, 16),
         '(./)':       ("(./)",                   'bi/check-circle.svg',     16, 16),
         '{OK}':       ("{OK}",                   'bi/hand-thumbs-up.svg',     16, 16),
-        '{X}':        ("{X}",                    'icon-error.png',    16, 16),
-        '{i}':        ("{i}",                    'icon-info.png',     16, 16),
+        '{X}':        ("{X}",                    'bi/x-circle.svg',    16, 16),
+        '{i}':        ("{i}",                    'bi/info-circle.svg',     16, 16),
         '{1}':        ("{1}",                    'prio1.png',         15, 13),
         '{2}':        ("{2}",                    'prio2.png',         15, 13),
         '{3}':        ("{3}",                    'prio3.png',         15, 13),
-        '{*}':        ("{*}",                    'star_on.png',       16, 16),
-        '{o}':        ("{o}",                    'star_off.png',      16, 16),
+        '{*}':        ("{*}",                    'bi/star-fill.svg',       16, 16),
+        '{o}':        ("{o}",                    'bi/star.svg',      16, 16),
     }
     del _
 
@@ -251,7 +251,18 @@ class Theme(ThemeBase):
             </div>
         </form>
 '''
-
+    html_drop_down_menu = u'''
+      <!-- Dropdown menu -->
+      <div class="dropdown">
+        <button type="button" id="%(id)sDropDown" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            %(menu_name)s
+        </button>
+        <!-- Dropdown contents -->
+        <ul class="dropdown-menu" aria-labelledby="%(id)sDropDown">
+            %(menu_list)s
+        </ul>
+      </div>
+      '''
 
     html_footer = u"""
 <!-- End of page contents -->
@@ -383,7 +394,28 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         header() for edit mode. Just set edit mode flag and call self.header().
         """
         d['edit_mode'] = 1
-        return self.header(d, **kw)
+
+        html = u'''
+        <div id="edit_controls">
+            <button id="h1_button" class="btn btn-sm btn-secondary bi bi-type-h1" aria-label="H1 heading"></button>
+            <button id="h2_button" class="btn btn-sm btn-secondary bi bi-type-h2" aria-label="H2 heading"></button>
+            <button id="h3_button" class="btn btn-sm btn-secondary bi bi-type-h3" aria-label="H3 heading"></button>
+
+            <button id="bold_button" class="btn btn-sm btn-secondary bi bi-type-bold" aria-label="Bold text formattgin"></button>
+            <button id="italic_button" class="btn btn-sm btn-secondary bi bi-type-italic" aria-label="Italic text formatting"></button>
+
+            <button id="italic_button" class="btn btn-sm btn-list-nested bi bi-type-italic" aria-label="Table of Content"></button>
+
+
+            <button id="table_button" class="btn btn-sm btn-secondary bi bi-table" aria-label="Table"></button>
+
+
+            <button id="code_button" class="btn btn-sm btn-secondary bi bi-code-slash" aria-label="Code Formatting"></button>
+            <button id="link_button" class="btn btn-sm btn-secondary bi bi-link-45deg" aria-label="Link Formatting"></button>
+
+        </div>
+        '''
+        return self.header(d, **kw)+html
 
     def footer(self, d, **keywords):
         """ Assemble wiki footer
@@ -441,6 +473,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
     def show_left_sidebar(self, d):
         # return true if this is a normal document
         # e.g. the edit page is not a normal document
+        # Editor could be checked via d['edit_mode']
         if self.is_normal_document(d):
             return True
         else:
@@ -587,13 +620,11 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         If the user can't edit, return a disabled edit button.
         """
         page = d['page']
-        edit_mode = d.get('edit_mode', 0)
 
         if 'edit' in self.request.cfg.actions_excluded:
             return u""
 
         editlink_button = u''
-        li_attr = u''
 
         if not (page.isWritable() and
                 self.request.user.may.write(page.page_name)):
@@ -601,7 +632,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         else:
             _ = self.request.getText
             querystr = {'action': 'edit'}
-            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'btn btn-primary', 'role': 'button', 'aria-disabled': 'true'}
+            attrs = {'name': 'editlink', 'rel': 'nofollow', 'css_class': 'btn btn-outline-secondary', 'role': 'button', 'aria-disabled': 'true'}
             editlink_button = page.link_to_raw(self.request, text=_('edit'), querystr=querystr, **attrs)
         return editlink_button
 
@@ -678,7 +709,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
             for page_link in userlinks:
                 menu_list += u'''<li>%(link)s</li>
 ''' % {'link': page_link}
-            return self.html_drop_down_menu(name, menu_list)
+            return self.drop_down_menu(name, menu_list, 'User')
         else:
             query = {'action': 'login'}
             # special direct-login link if the auth methods want no input
@@ -725,7 +756,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         menu_html_list = self._menu(d, menu_entries)
         _ = request.getText
 
-        return self.html_drop_down_menu(_('Menu'), menu_html_list)
+        return self.drop_down_menu(_('Menu'), menu_html_list, 'Menu')
 
     def page_menu(self, d):
         """ The menu for content page related functions
@@ -760,19 +791,10 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
 
         menu_html_list = self._menu(d, menu_entries)
         _ = request.getText
-        return self.html_drop_down_menu(_('Option'), menu_html_list)
+        return self.drop_down_menu(_('Option'), menu_html_list, "Option")
 
-    def html_drop_down_menu(self, name, menu_list):
-        html = u'''
-              <!-- Dropdown button -->
-              <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">
-                %(menu_name)s
-              </a>
-              <!-- Dropdown contents -->
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                %(menu_list)s
-              </ul>
-              ''' % {'menu_name': name, 'menu_list': menu_list}
+    def drop_down_menu(self, name, menu_list, id=""):
+        html = self.html_drop_down_menu % {'menu_name': name, 'menu_list': menu_list, 'id': id}
         return html
 
     def _menu(self, d, menu_entries):
