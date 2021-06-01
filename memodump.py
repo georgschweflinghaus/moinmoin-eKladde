@@ -264,6 +264,12 @@ class Theme(ThemeBase):
       </div>
       '''
 
+    html_commentbutton = u'''
+          <a href="#" class="menu-nav-comment nbcomment navbar-comment-toggle btn btn-outline-secondary" role="button" rel="nofollow" onClick="toggleComments();return false;" data-toggle="toggle" data-target=".navbar-comment-toggle">
+            <span class="hidden-sm">%s</span>
+          </a>
+'''
+
     html_footer = u"""
 <!-- End of page contents -->
 
@@ -297,6 +303,28 @@ class Theme(ThemeBase):
   <!-- End of JavaScript -->
 """
 
+    #TODO i18n
+    html_editor_buttons = u'''
+    <div id="edit_controls">
+        <button id="h1_button" class="btn btn-sm btn-secondary bi bi-type-h1" aria-label="H1 heading" data-toggle="tooltip" data-placement="top" title="H1 heading"></button>
+        <button id="h2_button" class="btn btn-sm btn-secondary bi bi-type-h2" aria-label="H2 heading" data-toggle="tooltip" data-placement="top" title="H2 heading"></button>
+        <button id="h3_button" class="btn btn-sm btn-secondary bi bi-type-h3" aria-label="H3 heading" data-toggle="tooltip" data-placement="top" title="H3 heading"></button>
+
+        <button id="bold_button" class="btn btn-sm btn-secondary bi bi-type-bold" aria-label="Bold text formatting" data-toggle="tooltip" data-placement="top" title="Bold text formatting"></button>
+        <button id="italic_button" class="btn btn-sm btn-secondary bi bi-type-italic" aria-label="Italic text formatting" data-toggle="tooltip" data-placement="top" title="Italic text formatting"></button>
+        <button id="underline_button" class="btn btn-sm btn-secondary bi bi-type-underline" aria-label="Underline text formatting" data-toggle="tooltip" data-placement="top" title="Underline text formatting"></button>
+
+        <button id="toc_button" class="btn btn-sm btn-secondary bi bi-list-nested" aria-label="Table of Content" data-toggle="tooltip" data-placement="top" title="Table of contents"></button>
+
+
+        <button id="table_button" class="btn btn-sm btn-secondary bi bi-table" aria-label="Table insertion" data-toggle="tooltip" data-placement="top" title="Table insertion"></button>
+
+
+        <button id="code_button" class="btn btn-sm btn-secondary bi bi-code-slash" aria-label="Code Formatting" data-toggle="tooltip" data-placement="top" title="Code formatting"></button>
+        <button id="link_button" class="btn btn-sm btn-secondary bi bi-link-45deg" aria-label="Link Formatting"  data-toggle="tooltip" data-placement="top" title="Link formatting"></button>
+
+    </div>
+    '''
 
     html_script = ur"""
 <script>
@@ -394,28 +422,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         header() for edit mode. Just set edit mode flag and call self.header().
         """
         d['edit_mode'] = 1
-
-        html = u'''
-        <div id="edit_controls">
-            <button id="h1_button" class="btn btn-sm btn-secondary bi bi-type-h1" aria-label="H1 heading"></button>
-            <button id="h2_button" class="btn btn-sm btn-secondary bi bi-type-h2" aria-label="H2 heading"></button>
-            <button id="h3_button" class="btn btn-sm btn-secondary bi bi-type-h3" aria-label="H3 heading"></button>
-
-            <button id="bold_button" class="btn btn-sm btn-secondary bi bi-type-bold" aria-label="Bold text formattgin"></button>
-            <button id="italic_button" class="btn btn-sm btn-secondary bi bi-type-italic" aria-label="Italic text formatting"></button>
-
-            <button id="italic_button" class="btn btn-sm btn-list-nested bi bi-type-italic" aria-label="Table of Content"></button>
-
-
-            <button id="table_button" class="btn btn-sm btn-secondary bi bi-table" aria-label="Table"></button>
-
-
-            <button id="code_button" class="btn btn-sm btn-secondary bi bi-code-slash" aria-label="Code Formatting"></button>
-            <button id="link_button" class="btn btn-sm btn-secondary bi bi-link-45deg" aria-label="Link Formatting"></button>
-
-        </div>
-        '''
-        return self.header(d, **kw)+html
+        return self.header(d, **kw) + self.html_editor_buttons
 
     def footer(self, d, **keywords):
         """ Assemble wiki footer
@@ -654,13 +661,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         when default javascript notices there is a comment in the source.
         """
         _ = self.request.getText
-        html = u'''
-            <li class="toggleCommentsButton navbar-comment-toggle btn btn-outline-secondary" role="button" style="display:none;">
-              <a href="#" class="menu-nav-comment nbcomment navbar-comment-toggle" rel="nofollow" onClick="toggleComments();return false;" data-toggle="toggle" data-target=".navbar-comment-toggle">
-                <span class="hidden-sm">%s</span>
-              </a>
-            </li>
-''' % _('Comments')
+        html = self.html_commentbutton % _('Comments')
         return html
 
     def menu_user(self, d):
