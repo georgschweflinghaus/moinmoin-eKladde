@@ -655,7 +655,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         """
         _ = self.request.getText
         html = u'''
-            <li class="toggleCommentsButton navbar-comment-toggle" style="display:none;">
+            <li class="toggleCommentsButton navbar-comment-toggle btn btn-outline-secondary" role="button" style="display:none;">
               <a href="#" class="menu-nav-comment nbcomment navbar-comment-toggle" rel="nofollow" onClick="toggleComments();return false;" data-toggle="toggle" data-target=".navbar-comment-toggle">
                 <span class="hidden-sm">%s</span>
               </a>
