@@ -39,8 +39,9 @@ function typeInTextarea(el, newBeforeText, newAfterText) {
   var after  = text.substring(end, text.length);
   var selected = text.substring(start, end);
   el.val(before + newBeforeText + selected + newAfterText + after);
-  el.prop("selectionStart", end);
-  el.prop("selectionEnd", end);
+  additional_chars = newBeforeText.length + newAfterText.length
+  el.prop("selectionStart", end + additional_chars);
+  el.prop("selectionEnd", end + additional_chars);
   return false
 }
   $("#h1_button").on("click", function() {
@@ -61,6 +62,30 @@ function typeInTextarea(el, newBeforeText, newAfterText) {
   return false
   })
 
+  $("#bold_button").on("click", function() {
+    typeInTextarea($("#editor-textarea"), "'''", "'''");
+  $("#editor-textarea").focus();
+  return false
+  })
+
+  $("#italic_button").on("click", function() {
+    typeInTextarea($("#editor-textarea"), "''", "''");
+  $("#editor-textarea").focus();
+  return false
+  })
+
+  $("#underline_button").on("click", function() {
+    typeInTextarea($("#editor-textarea"), "__", "__");
+  $("#editor-textarea").focus();
+  return false
+  })
+
+  $("#table_button").on("click", function() {
+    typeInTextarea($("#editor-textarea"), "|| Head || Head ||\n|| Row || Row ||", "");
+  $("#editor-textarea").focus();
+  return false
+  })
+
   $("#code_button").on("click", function() {
     typeInTextarea($("#editor-textarea"), "\n{{{#!highlight python,js,html,bash\n", "\n}}}\n");
   $("#editor-textarea").focus();
@@ -73,10 +98,20 @@ function typeInTextarea(el, newBeforeText, newAfterText) {
   return false
   })
 
-// <<TableOfContents()>>
+  $("#toc_button").on("click", function() {
+    typeInTextarea($("#editor-textarea"), "<<TableOfContents()>>", "");
+  $("#editor-textarea").focus();
+  return false
+  })
+
+  $("#childtree_button").on("click", function() {
+    typeInTextarea($("#editor-textarea"), "<<Navitree(childtree,2)>>", "");
+  $("#editor-textarea").focus();
+  return false
+  })
+
+//
 //  __underline__
-//  '''bold'''
-//  ''italic''
 //
 //  ^super^script
 //
