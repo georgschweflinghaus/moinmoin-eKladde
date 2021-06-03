@@ -15,7 +15,7 @@ if (typeof jQuery === 'undefined') { throw new Error('jQuery is required') }
 
 }(jQuery);
 
-// Re-sort the edit view
+// Re-sort the edit view main parts
 // Edit view has usualy the order:
 // 1. Textedit
 // 2. Editor Help
@@ -25,7 +25,18 @@ if (typeof jQuery === 'undefined') { throw new Error('jQuery is required') }
 // 2. Preview
 // 3. Editor Help
 +function ($) {
-  $('#previewbelow').insertBefore('#editor-help');
+  $('#preview').insertBefore('#editor-help');//TXT edito
+  $('#previewbelow').insertBefore('#editor-help');//GUI editor
+}(jQuery);
+
+
+if (!document.getElementById("preview")) {
+  $('<div id="preview">Press "Preview" button to see a preview.</div>').insertAfter( '#editor' );
+}
+
+
++function ($) {
+  $('#editor-textarea').insertBefore('input[name=button_save]');
 }(jQuery);
 
 // Add functions to the formatting buttons in the edit view
