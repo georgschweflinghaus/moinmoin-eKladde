@@ -2,8 +2,9 @@ moinmoin-eKladde
 =================
 
 A simple [MoinMoin][] theme based on memodump which features [Bootstrap 5][].  
-Adapted to Bootstrap 5 including icons.
-Improved textual edit mode.
+Adapted to Bootstrap 5 including Bootstrap icons.
+Featuring add sub page form.
+Featuring improved textual edit mode.
 
 You can create your own sidebar by creating a page called `SideBar`.
 
@@ -57,7 +58,7 @@ There are two ways to apply the theme.
 
 * Log into your wiki and go to user preferences page.
   (**Settings** near the upper left corner, then **Preferences**)
-* Choose **memodump** from Preferred theme dropdown box.
+* Choose **ekladde** from Preferred theme dropdown box.
 * Hit *save* button at the bottom of the page.
 
 ### As the default theme ###
