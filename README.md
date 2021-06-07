@@ -1,8 +1,9 @@
 moinmoin-eKladde
 =================
 
-A simple [MoinMoin][] theme based on memodump which features [Twitter Bootstrap][].  
-Comes with responsive navbar and sidebar.
+A simple [MoinMoin][] theme based on memodump which features [Bootstrap 5][].  
+Adapted to Bootstrap 5 including icons.
+Improved textual edit mode.
 
 You can create your own sidebar by creating a page called `SideBar`.
 
@@ -26,13 +27,13 @@ Install
    To clone:
 
     ```console
-    $ git clone https://github.com/dossist/moinmoin-memodump.git
+    $ git clone https://github.com/georgschweflinghaus/moinmoin-eKladde.git
     ```
 
-2. Copy `memodump.py` into plugin directory `data/plugin/theme/`.
+2. Copy `ekladde.py` into plugin directory `data/plugin/theme/`.
    Location of the directory varies according to how you installed MoinMoin.
 
-3. Copy directory `memodump` into static files directory `MoinMoin/web/static/htdocs/`.
+3. Copy directory `ekladde` into static files directory `MoinMoin/web/static/htdocs/`.
    Again location of that directory will vary. It could be:
     * `/usr/share/moin/htdocs` if you installed MoinMoin from Ubuntu package
     * `/usr/local/lib/python2.7/dist-packages/MoinMoin/web/static/htdocs` if you installed MoinMoin from zip
@@ -64,7 +65,7 @@ There are two ways to apply the theme.
 Edit `wikiconfig.py` to change `theme_default`.
 
 ```python
-    theme_default = 'memodump'
+    theme_default = 'ekladde'
 ```
 
 Please note that indentations are important in python codes, and here you must
@@ -140,16 +141,16 @@ Limitations
 License and copyrights
 ----------------------
 
-Copyright 2014 dossist.  
+Copyright 2021 gejosch.  
 This theme is licensed under [GNU GPL][].  
 [Twitter Bootstrap][] is copyrighted by Twitter, Inc and licensed under [the MIT license][MIT].  
 [MoinMoin][] is copyrighted by [The MoinMoin development team](https://moinmo.in/MoinCoreTeamGroup) and licensed under [GNU GPL][].  
-Icons and some part of CSS were taken from the default modernized theme.  
+Icons were taken from [Bootstrap icons](https://icons.getbootstrap.com/).  
 
 
 
 [MoinMoin]: https://moinmo.in/
-[Twitter Bootstrap]: http://getbootstrap.com/
+[Bootstrap 5]: https://getbootstrap.com/docs/5.0/getting-started/introduction/
 [Wiki Home]: https://github.com/dossist/moinmoin-memodump/wiki
 [Wiki EditMenu]: https://github.com/dossist/moinmoin-memodump/wiki/EditMenu
 [Wiki Translation]: https://github.com/dossist/moinmoin-memodump/wiki/Translation
