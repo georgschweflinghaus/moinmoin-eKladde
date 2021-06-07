@@ -108,21 +108,21 @@ class Theme(ThemeBase):
     stylesheets = (
         # media         basename
         ('all',         'bootstrap.min'),
-        ('all',         '../font/bootstrap-icons'),
+        ('all',         '../fonts/bootstrap-icons'),
         ('all',         'moinizer'),
         ('all',         'ekladde'),
 
     )
     stylesheets_print = (
         ('all',         'bootstrap.min'),
-        ('all',         '../font/bootstrap-icons'),
+        ('all',         '../fonts/bootstrap-icons'),
         ('all',         'moinizer'),
         ('all',         'ekladde'),
         ('all',         'memoprint'),
     )
     stylesheets_projection = (
         ('all',         'bootstrap.min'),
-        ('all',         '../font/bootstrap-icons'),
+        ('all',         '../fonts/bootstrap-icons'),
         ('all',         'moinizer'),
         ('all',         'ekladde'),
         ('all',         'memoslide'),
