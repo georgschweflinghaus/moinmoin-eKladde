@@ -80,7 +80,7 @@ class Theme(ThemeBase):
         'B)':         ("B)",                     'bi/emoji-sunglasses-fill-yellow.svg',        16, 16),
         ':))':        (":))",                    'bi/emoji-laughing-fill-yellow.svg',        16, 16),
         ';)':         (";)",                     'bi/emoji-wink-fill-yellow.svg',        16, 16),
-        '/!\\':       ("/!\\",                   'bi/exclamation-triangle.svg',         16, 16),
+        '/!\\':       ("/!\\",                   'bi/exclamation-triangle-red.svg',         16, 16),
         '<!>':        ("<!>",                    'bi/exclamation-circle.svg',     16, 16),
         '(!)':        ("(!)",                    'bi/lightbulb.svg',          16, 16),
         ':-?':        (":-?",                    'tongue.png',        16, 16),
@@ -265,8 +265,9 @@ class Theme(ThemeBase):
       '''
 
     html_commentbutton = u'''
-          <a href="#" class="menu-nav-comment nbcomment navbar-comment-toggle btn btn-outline-secondary" role="button" rel="nofollow" onClick="toggleComments();return false;" data-toggle="toggle" data-target=".navbar-comment-toggle">
-            <span class="hidden-sm">%s</span>
+          <a href="#" class="menu-nav-comment nbcomment navbar-comment-toggle btn btn-outline-secondary" role="button" rel="nofollow" onClick="toggleComments();return false;" data-toggle="toggle" data-target=".navbar-comment-toggle"
+                title="%(title)s">
+            <span class="hidden-sm">%(comment)s</span>
           </a>
 '''
 
@@ -666,7 +667,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
         when default javascript notices there is a comment in the source.
         """
         _ = self.request.getText
-        html = self.html_commentbutton % _('Comments')
+        html = self.html_commentbutton % {'comment': _('Comments'), 'title': _("Toggles visibility of comments in document.")}
         return html
 
     def menu_user(self, d):
