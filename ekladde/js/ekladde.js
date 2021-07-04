@@ -41,11 +41,36 @@ if (!document.getElementById("preview")) {
 
 // Add functions to the formatting buttons in the edit view
 +function ($) {
+
+  function findStartOfLine(text, start) {
+    var line_start = 0;
+    for (var i = start; i>0; i--) {
+      if (text[i] == '\n') {
+        return i+1;
+      }
+    }
+    return line_start;
+  }
+
+  function findEndOfLine(text, end) {
+    var line_end = text.length;
+    for (var i = end; i<line_end; i++) {
+      if (text[i] == '\n') {
+        return i;
+      }
+    }
+    return line_end;
+  }
+
 function typeInTextarea(el, newBeforeText, newAfterText) {
   console.log("typeInTextarea called!!");
   var start = el.prop("selectionStart");
   var end = el.prop("selectionEnd");
   var text = el.val();
+
+  start = findStartOfLine(text, start);
+  end = findEndOfLine(text, end)
+
   var before = text.substring(0, start);
   var after  = text.substring(end, text.length);
   var selected = text.substring(start, end);
@@ -55,6 +80,8 @@ function typeInTextarea(el, newBeforeText, newAfterText) {
   el.prop("selectionEnd", end + additional_chars);
   return false
 }
+
+
   $("#h1_button").on("click", function() {
     typeInTextarea($("#editor-textarea"), "= ", " =");
   $("#editor-textarea").focus();
