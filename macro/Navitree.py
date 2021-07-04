@@ -133,11 +133,9 @@ class Navitree:
                     self.macro.formatter.sysmsg(0))
         else:
             parents[parent] = 1
-
         # limit depth if a depth was specified
         if depth and currentdepth >= depth:
             return ''
-
         # iterate over children, adding links to all of them
         result = []
         result.append('<%s>' % liststyle)
@@ -146,25 +144,19 @@ class Navitree:
             # display short page name, leaving out the parent path
             # (and make sure the name doesn't get wrapped)
             shortname = child[len(parent)+1:]
-
             if shortname.count('/') > 0:
                 shortname = re.sub('/.*$', '', shortname)
                 child = parent + '/' + shortname
-
             if parents.has_key(child):
                 continue
-
             result.append('<li>')
-
             if child == self.pagename:
                 # do not link to focus
                 result.append(self.macro.formatter.text(shortname))
             else:
                 # link to child
                 result.append(Page(self.macro.request, child).link_to(self.macro.request, text=shortname, querystr=self.querystr))
-
             result.append('</li>')
-
             result.append(self.do_tree(root=child, currentdepth=currentdepth+1, parents=parents))
 
         result.append('</%s>' % liststyle)
