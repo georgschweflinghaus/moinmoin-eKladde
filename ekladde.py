@@ -315,11 +315,14 @@ class Theme(ThemeBase):
         <button id="italic_button" class="btn btn-sm btn-secondary bi bi-type-italic" aria-label="Italic text formatting" data-toggle="tooltip" data-placement="top" title="Italic text formatting"></button>
         <button id="underline_button" class="btn btn-sm btn-secondary bi bi-type-underline" aria-label="Underline text formatting" data-toggle="tooltip" data-placement="top" title="Underline text formatting"></button>
 
+        <button id="list_ul_button" class="btn btn-sm btn-secondary bi bi-list-ul" aria-label="Format as list unordered" data-toggle="tooltip" data-placement="top" title="Format as list unordered"></button>
+        <button id="list_ol_button" class="btn btn-sm btn-secondary bi bi-list-ol" aria-label="Format as list ordered" data-toggle="tooltip" data-placement="top" title="Format as list ordered"></button>
+
+
         <button id="toc_button" class="btn btn-sm btn-secondary bi bi-list-nested" aria-label="Table of Content" data-toggle="tooltip" data-placement="top" title="Table of contents"></button>
 
-
+        <button id="childtree_button" class="btn btn-sm btn-secondary bi bi-diagram-3" aria-label="Child page macro insertion" data-toggle="tooltip" data-placement="top" title="List of child pages macro"></button>
         <button id="table_button" class="btn btn-sm btn-secondary bi bi-table" aria-label="Table insertion" data-toggle="tooltip" data-placement="top" title="Table insertion"></button>
-
 
         <button id="code_button" class="btn btn-sm btn-secondary bi bi-code-slash" aria-label="Code Formatting" data-toggle="tooltip" data-placement="top" title="Code formatting"></button>
         <button id="link_button" class="btn btn-sm btn-secondary bi bi-link-45deg" aria-label="Link Formatting"  data-toggle="tooltip" data-placement="top" title="Link formatting"></button>
