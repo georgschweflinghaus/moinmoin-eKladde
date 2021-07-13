@@ -311,9 +311,12 @@ class Theme(ThemeBase):
         <button id="h2_button" class="btn btn-sm btn-secondary bi bi-type-h2" aria-label="H2 heading" data-toggle="tooltip" data-placement="top" title="H2 heading"></button>
         <button id="h3_button" class="btn btn-sm btn-secondary bi bi-type-h3" aria-label="H3 heading" data-toggle="tooltip" data-placement="top" title="H3 heading"></button>
 
-        <button id="bold_button" class="btn btn-sm btn-secondary bi bi-type-bold" aria-label="Bold text formatting" data-toggle="tooltip" data-placement="top" title="Bold text formatting"></button>
-        <button id="italic_button" class="btn btn-sm btn-secondary bi bi-type-italic" aria-label="Italic text formatting" data-toggle="tooltip" data-placement="top" title="Italic text formatting"></button>
-        <button id="underline_button" class="btn btn-sm btn-secondary bi bi-type-underline" aria-label="Underline text formatting" data-toggle="tooltip" data-placement="top" title="Underline text formatting"></button>
+        <button id="bold_button" class="btn btn-sm btn-secondary bi bi-type-bold" aria-label="Apply bold text formatting" data-toggle="tooltip" data-placement="top" title="Bold text formatting"></button>
+        <button id="italic_button" class="btn btn-sm btn-secondary bi bi-type-italic" aria-label="Apply italic text formatting" data-toggle="tooltip" data-placement="top" title="Italic text formatting"></button>
+        <button id="underline_button" class="btn btn-sm btn-secondary bi bi-type-underline" aria-label="Apply underline text formatting" data-toggle="tooltip" data-placement="top" title="Underline text formatting"></button>
+        <button id="strikethrough_button" class="btn btn-sm btn-secondary bi bi-type-strikethrough" aria-label="Apply strikethrough text formatting" data-toggle="tooltip" data-placement="top" title="Underline text formatting"></button>
+        <button id="subscript_button" class="btn btn-sm btn-secondary bi bi-arrow-down-short" aria-label="Apply subscript text formatting" data-toggle="tooltip" data-placement="top" title="Underline text formatting"></button>
+        <button id="superscript_button" class="btn btn-sm btn-secondary bi bi-arrow-up-short" aria-label="Apply superscript text formatting" data-toggle="tooltip" data-placement="top" title="Underline text formatting"></button>
 
         <button id="list_ul_button" class="btn btn-sm btn-secondary bi bi-list-ul" aria-label="Format as list unordered" data-toggle="tooltip" data-placement="top" title="Format as list unordered"></button>
         <button id="list_ol_button" class="btn btn-sm btn-secondary bi bi-list-ol" aria-label="Format as list ordered" data-toggle="tooltip" data-placement="top" title="Format as list ordered"></button>

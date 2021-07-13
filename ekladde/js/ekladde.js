@@ -156,6 +156,24 @@ function applyToSelectedLines(el, newBeforeText, newAfterText) {
   return false
   })
 
+  $("#strikethrough_button").on("click", function() {
+    applyToSelectedText($("#editor-textarea"), "--", "--", false);
+  $("#editor-textarea").focus();
+  return false
+  })
+
+  $("#subscript_button").on("click", function() {
+    applyToSelectedText($("#editor-textarea"), ",,", ",,", false);
+  $("#editor-textarea").focus();
+  return false
+  })
+
+  $("#superscript_button").on("click", function() {
+    applyToSelectedText($("#editor-textarea"), "^", "^", false);
+  $("#editor-textarea").focus();
+  return false
+  })
+
   $("#table_button").on("click", function() {
     applyToSelectedText($("#editor-textarea"), "|| Head || Head ||\n|| Row || Row ||", "", false);
   $("#editor-textarea").focus();
@@ -198,7 +216,6 @@ function applyToSelectedLines(el, newBeforeText, newAfterText) {
   return false
   })
 //
-//  __underline__
 //
 //  ^super^script
 //
