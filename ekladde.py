@@ -130,7 +130,7 @@ class Theme(ThemeBase):
 
 
     html_logo = u'''
-<nav id="document" class="navbar navbar-expand-lg navbar-light">
+<nav id="document_header" class="navbar navbar-expand-lg navbar-light ruler_decoration">
     <div class="container-fluid">
         <ul class="navbar-nav navbar-expand-lg me-auto">
             <li id="documentinfo" class="nav-item me-auto">
@@ -217,7 +217,7 @@ class Theme(ThemeBase):
             %(custom_pre)s
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="doc_border w-100">
+                <div class="document shadow w-100">
                     %(custom_post)s
                     %(msg)s
                     %(document_title_controls)s
@@ -228,7 +228,7 @@ class Theme(ThemeBase):
     html_no_sidebar = u'''
             %(custom_pre)s
             <main class="ms-sm-auto px-md-4">
-                <div class="doc_border w-100">
+                <div class="document shadow w-100">
                     %(custom_post)s
                     %(msg)s
                     %(document_title_controls)s
@@ -511,7 +511,7 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
     def non_document_title(self, d):
         """ If this is no document page but e.g. a search page
         we have to use this function """
-        return '<span id="document_name">%s</span>' % wikiutil.escape(d['title_text'])
+        return '<h1 id="document_name">%s</h1>' % wikiutil.escape(d['title_text'])
 
 
     def is_normal_document(self, d):
@@ -561,12 +561,8 @@ if (location.hash) setTimeout(function () { mdAnchorFix.jump(); }, 100);
                     %(document_breadcrumb_list)s
                 </ol>
             </nav>
-            <span id="document_name">
-                %(document_name)s
-            </span>
-            <span class="lastupdate">
-                %(lastupdate)s
-            </span>
+            <h1 id="document_name">%(document_name)s</h1>
+            <span class="lastupdate">%(lastupdate)s</span>
 ''' % { 'interwiki': self.interwiki(d),
         'document_name': self.document_name(d),
         'document_breadcrumb_list': self.document_breadcrumb_list(d),
