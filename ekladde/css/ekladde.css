@@ -4,17 +4,36 @@ main {
   height: -webkit-fill-available;
   overflow-x: auto;
 }
-main > div {
 
-}
-
-
-/* ======================== */
-/* BANNER NAVBAR  */
-/* ======================== */
-nav#banner {
+#header {
   background: linear-gradient(45deg,#5a616d,#8492a6);
 }
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Behind the header */
+  padding: 48px 0 0; /* Height of header */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+#body-content {
+  min-height: calc(100vh - 36px);
+}
+
+#footer {
+  width: 100vw;
+}
+
+
+/* ================================ */
+/* HEADER with LOGO BANNER AND MENU */
+/* ================================ */
+
 /* Navbar buttons */
 button#add-button, button#search-button, button#MenuDropDown, button#UserDropDown {
   background-color: #6E83A3;
@@ -30,33 +49,6 @@ input#add-input, input#search-input {
 }
 input#add-input:focus, input#search-input:focus {
   background-color: white;
-}
-
-/* ======================== */
-/* ROW                      */
-/* ======================== */
-#content-row {
-  min-height: calc(100vh - 36px);
-}
-#footer {
-  width: 100vw;
-}
-
-
-/* ======================== */
-/* SIDEBAR                  */
-/* ======================== */
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
 
@@ -80,7 +72,7 @@ input#add-input:focus, input#search-input:focus {
 .ruler_decoration {
   padding-top: 0px;
   padding-bottom: 0px;
-  border-top: 6px solid #8492a6;
+  border-top: 3px solid #8492a6;
   border-bottom: 1px solid #8492a6;
 }
 
@@ -206,10 +198,21 @@ fieldset > p {
 
 /* EDIT FORMATTING BUTTONS      */
 
+div#edit_controls .btn-group {
+  margin-right: 0.5rem;
+  border: 2px solid #EEB311;
+  border-radius: 3px;
+}
+
 div#edit_controls button {
   padding: .12rem .25rem;
   font-size: 1.1rem;
   font-weight: bold;
+}
+
+div#edit_controls button {
+    /*color: #6c757d;*/
+    border-color: #888;
 }
 
 /* ========================= */
