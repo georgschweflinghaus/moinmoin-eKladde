@@ -205,7 +205,7 @@ class Theme(ThemeBase):
     html_with_sidebar = u'''
             <!-- LEFT SIDEBAR -->
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="position-sticky pt-3">
+                <div class="position-sticky pt-3 container-fluid">
                     <!-- SideBar contents -->
                     %(sidebar)s
                     <!-- Navilinks -->
@@ -331,6 +331,8 @@ class Theme(ThemeBase):
                 <button id="childtree_button" class="btn btn-sm btn-secondary bi bi-diagram-3" aria-label="Child page macro insertion" data-toggle="tooltip" data-placement="top" title="List of child pages macro"></button>
                 <button id="table_button" class="btn btn-sm btn-secondary bi bi-table" aria-label="Table insertion" data-toggle="tooltip" data-placement="top" title="Table insertion"></button>
                 <button id="code_button" class="btn btn-sm btn-secondary bi bi-code-slash" aria-label="Code Formatting" data-toggle="tooltip" data-placement="top" title="Code formatting"></button>
+                <button id="infobox_button" class="btn btn-sm btn-secondary bi bi-info-circle" aria-label="Add info box" data-toggle="tooltip" data-placement="top" title="Add info box"></button>
+
             </div>
             <div class="btn-group mr-2" role="group" aria-label="Group of buttons to apply special functions">
                 <button id="link_button" class="btn btn-sm btn-secondary bi bi-link-45deg" aria-label="Link Formatting"  data-toggle="tooltip" data-placement="top" title="Link formatting"></button>

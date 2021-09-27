@@ -66,6 +66,8 @@ if (!document.getElementById("preview")) {
     return line_end;
   }
 
+const MATCH_EXACT = false
+const MATCH_WHOLE_LINE = true
   /*
   * Apply before the selection the newBeforeText and after the selection the
   * newAfterText. Alternative if operate_on_whole_line is true apply this to
@@ -121,85 +123,85 @@ function applyToSelectedLines(el, newBeforeText, newAfterText) {
 
 
   $("#h1_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "= ", " =", true );
+    applyToSelectedText($("#editor-textarea"), "= ", " =", MATCH_WHOLE_LINE );
   $("#editor-textarea").focus();
   return false
   })
 
   $("#h2_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "== ", " ==", true);
+    applyToSelectedText($("#editor-textarea"), "== ", " ==", MATCH_WHOLE_LINE);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#h3_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "=== ", " ===", true  );
+    applyToSelectedText($("#editor-textarea"), "=== ", " ===", MATCH_WHOLE_LINE  );
   $("#editor-textarea").focus();
   return false
   })
 
   $("#bold_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "'''", "'''", false);
+    applyToSelectedText($("#editor-textarea"), "'''", "'''", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#italic_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "''", "''", false);
+    applyToSelectedText($("#editor-textarea"), "''", "''", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#underline_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "__", "__", false);
+    applyToSelectedText($("#editor-textarea"), "__", "__", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#strikethrough_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "--", "--", false);
+    applyToSelectedText($("#editor-textarea"), "--", "--", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#subscript_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), ",,", ",,", false);
+    applyToSelectedText($("#editor-textarea"), ",,", ",,", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#superscript_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "^", "^", false);
+    applyToSelectedText($("#editor-textarea"), "^", "^", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#table_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "|| Head || Head ||\n|| Row || Row ||", "", false);
+    applyToSelectedText($("#editor-textarea"), "|| Head || Head ||\n|| Row || Row ||", "", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#code_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "\n{{{#!highlight python,js,html,bash\n", "\n}}}\n", false);
+    applyToSelectedText($("#editor-textarea"), "\n{{{#!highlight python,js,html,bash\n", "\n}}}\n", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#link_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "[[", "]]", false);
+    applyToSelectedText($("#editor-textarea"), "[[", "]]", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#toc_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "<<TableOfContents()>>", "", false);
+    applyToSelectedText($("#editor-textarea"), "<<TableOfContents()>>", "", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
 
   $("#childtree_button").on("click", function() {
-    applyToSelectedText($("#editor-textarea"), "<<Navitree(childtree,2)>>", "", false);
+    applyToSelectedText($("#editor-textarea"), "<<Navitree(childtree,2)>>", "", MATCH_EXACT);
   $("#editor-textarea").focus();
   return false
   })
@@ -215,11 +217,13 @@ function applyToSelectedLines(el, newBeforeText, newAfterText) {
   $("#editor-textarea").focus();
   return false
   })
+
+  $("#infobox_button").on("click", function() {
+    applyToSelectedText($("#editor-textarea"), "{{{#!wiki note\r\n", "}}}", MATCH_WHOLE_LINE);
+  $("#editor-textarea").focus();
+  return false
+  })
 //
-//
-//  ^super^script
-//
-//  ,,sub,,script
 //
 //  ~-smaller-~
 //
@@ -227,10 +231,5 @@ function applyToSelectedLines(el, newBeforeText, newAfterText) {
 //
 //  --(stroke)--
 //
-//  {{{#!wiki caution
-//  '''Don't overuse admonitions'''
-//
-//  Admonitions should be used with care. A page riddled with admonitions will look restless and will be harder to follow than a page where admonitions are used sparingly.
-//  }}}
 
 }(jQuery);
