@@ -325,3 +325,24 @@ content: "\f53e";
 font-family: bootstrap-icons;
 content: "\f470";
 }
+
+/*  */
+.menu-dd-RecentChanges::before {
+font-family: bootstrap-icons;
+content: "\f292";
+}.menu-dd-FindPage::before {
+font-family: bootstrap-icons;
+content: "\f52a";
+}.menu-dd-LocalSiteMap::before {
+font-family: bootstrap-icons;
+content: "\f47f";
+}.menu-dd-editSideBar::before {
+font-family: bootstrap-icons;
+content: "\f4ca";
+}.menu-dd-HelpContents::before {
+font-family: bootstrap-icons;
+content: "\f50b";
+}.menu-dd-HelpOnMoinWikiSyntax::before {
+font-family: bootstrap-icons;
+content: "\f50b";
+}
