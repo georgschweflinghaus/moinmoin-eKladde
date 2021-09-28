@@ -62,7 +62,8 @@ input#add-input:focus, input#search-input:focus {
 }
 
 .shadow {
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15), 0 .5rem 1rem rgba(0,0,0,.15) !important;
+  /* box-shadow: 0 .5rem 1rem rgba(0,0,0,.15), 0 .5rem 1rem rgba(0,0,0,.15) !important; */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
   border-style: solid;
   border-width: 0px;
   border-color: #F5F5F5;
@@ -72,7 +73,6 @@ input#add-input:focus, input#search-input:focus {
 .ruler_decoration {
   padding-top: 0px;
   padding-bottom: 0px;
-  border-top: 3px solid #8492a6;
   border-bottom: 1px solid #8492a6;
 }
 
@@ -216,7 +216,7 @@ div#edit_controls button {
 }
 
 /* ========================= */
-/* NAVIGATION DROPDOWN MENUS */
+/* NAVBAR DROPDOWN MENUS */
 /* ========================= */
 
 /* ALIGN menu right aligned overwriting BS5 setting*/
@@ -278,4 +278,50 @@ a.dropdown-item[class*=" bi-"]::before  {
 }
 .scrollarea {
   overflow-y: auto;
+}
+
+/* MENU ICONS */
+a.dropdown-item[class^="menu-dd-"]::before,
+a.dropdown-item[class*=" menu-dd-"]::before  {
+  margin-right: 10px;
+}
+.menu-dd-AttachFile::before {
+font-family: bootstrap-icons;
+content: "\f3c2";
+}
+.menu-dd-info::before {
+font-family: bootstrap-icons;
+content: "\f431";
+}
+.menu-dd-raw::before {
+font-family: bootstrap-icons;
+content: "\f43f";
+}
+.menu-dd-print::before {
+font-family: bootstrap-icons;
+content: "\f501";
+}
+.menu-dd-RenamePage::before {
+font-family: bootstrap-icons;
+content: "\f435";
+}
+.menu-dd-DeletePage::before {
+font-family: bootstrap-icons;
+content: "\f441";
+}
+.menu-dd-Load::before {
+font-family: bootstrap-icons;
+content: "\f603";
+}
+.menu-dd-Save::before {
+font-family: bootstrap-icons;
+content: "\f525";
+}
+.menu-dd-Despam::before {
+font-family: bootstrap-icons;
+content: "\f53e";
+}
+.menu-dd-quicklink::before {
+font-family: bootstrap-icons;
+content: "\f470";
 }
