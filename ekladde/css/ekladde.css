@@ -125,7 +125,25 @@ nav#document_header ul {
   --bs-breadcrumb-divider: '>';
 }
 
-/* Document highlighting        */
+
+/* ========================== */
+/* Content within document    */
+/* ========================== */
+
+/* Styling for tables */
+
+#content table, th, td {
+  padding-left: 0.5rem;
+  border: 1pt solid #ccc;
+  border-radius: 4px;
+
+}
+
+#content tr:first-child td {
+  background-color: #ccc;
+  text-align: center;
+  font-weight: bold;
+}
 
 /* Styling for {{{  }}} code block*/
 pre {
