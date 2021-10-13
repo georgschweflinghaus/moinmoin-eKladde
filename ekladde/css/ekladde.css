@@ -61,6 +61,10 @@ input#add-input:focus, input#search-input:focus {
   padding-right: 2em;
 }
 
+#document_header {
+  margin-bottom: 1.5rem;
+}
+
 .shadow {
   /* box-shadow: 0 .5rem 1rem rgba(0,0,0,.15), 0 .5rem 1rem rgba(0,0,0,.15) !important; */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
@@ -136,13 +140,17 @@ nav#document_header ul {
   padding-left: 0.5rem;
   border: 1pt solid #ccc;
   border-radius: 4px;
+}
 
+#content table {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 #content tr:first-child td {
-  background-color: #ccc;
+  background-color: #F3F5F7;
   text-align: center;
   font-weight: bold;
+  color: #444;
 }
 
 /* Styling for {{{  }}} code block*/
